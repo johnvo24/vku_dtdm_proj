@@ -1,0 +1,9 @@
+
+POST http://localhost:3000/api/test/register
+Content-Type: application/json
+
+{
+     "username": "ngoc huy",
+     "role": "1",
+     "password": "Huyhuy007"
+}
