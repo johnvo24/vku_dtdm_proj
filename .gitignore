@@ -20,7 +20,8 @@ docker-compose.override.yml
 # IDEs and Editors
 .vscode/
 
-
 # Operating system files
 .DS_Store
 Thumbs.db
+
+gym-app-backend.code-workspace

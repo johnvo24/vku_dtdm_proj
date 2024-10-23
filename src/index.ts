@@ -12,11 +12,6 @@ const port = process.env.PORT || 3000;
 // Middlewares
 app.use(express.json());
 
-// Routes
-app.get('/', (req: Request, res: Response) => {
-  res.send('Hello, Gym App Backend!');
-});
-
 app.use(routes)
 
 // Connect to PostgreSQL using TypeORM
