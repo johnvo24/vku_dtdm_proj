@@ -240,7 +240,6 @@ CREATE TABLE "workout_sumary" (
 	PRIMARY KEY("workout_sumary_id")
 );
 
-
 CREATE TABLE "workout_day" (
 	"workout_day_id" SERIAL NOT NULL UNIQUE,
 	"workout_day_name" VARCHAR(255) NOT NULL,

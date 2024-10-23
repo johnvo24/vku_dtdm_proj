@@ -13,6 +13,9 @@ RUN npm install
 # Copy toàn bộ mã nguồn vào container
 COPY . .
 
+# Kiểm tra cài đặt ts-node
+RUN npm list -g ts-node
+
 # Biên dịch TypeScript sang JavaScript
 RUN npm run build
 
@@ -20,4 +23,4 @@ RUN npm run build
 EXPOSE 3000
 
 # Lệnh để chạy ứng dụng
-CMD ["npm", "run", "start"]
+CMD ["npm", "start"]
