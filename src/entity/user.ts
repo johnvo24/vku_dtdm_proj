@@ -11,7 +11,7 @@ export class User {
     @Column({ type: 'varchar', length: 40 })
     fullname: string;
 
-    @Column({ type: 'varchar', length: 32 })
+    @Column({ type: 'varchar', length: 16 })
     username: string;
 
     @Column({ type: 'varchar', length: 32 })
@@ -38,22 +38,22 @@ export class User {
     @Column({ type: 'smallint' })
     age: number;
 
-    @Column({ type: 'decimal' })
+    @Column({ type: 'float' })
     weight: number;
 
-    @Column({ type: 'decimal' })
+    @Column({ type: 'float' })
     height: number;
 
     @Column({ type: 'smallint', default: 0 })
     streak: number;
 
-    @Column({ type: 'varchar', length: 255, nullable: true })
+    @Column({ type: 'text',nullable: true })
     advance_data: string;
 
     @OneToMany(() => DietPlan, dietPlan => dietPlan.user)
-    dietPlans: DietPlan[];
+    diet_plans: DietPlan[];
 
     // Quan hệ 1-n với user_workout_plan
     @OneToMany(() => UserWorkoutPlan, userWorkoutPlan => userWorkoutPlan.user)
-    workoutPlans: UserWorkoutPlan[];
+    user_workout_plans: UserWorkoutPlan[];
 }

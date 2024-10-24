@@ -26,7 +26,7 @@ export class DietPlanDetail {
     food: Food;
 
     // Quan hệ n-1 với diet_plan
-    @ManyToOne(() => DietPlan,)
+    @ManyToOne(() => DietPlan, dietPlan => dietPlan.dietPlanDetails)
     @JoinColumn({ name: 'diet_plan_id' })
     dietPlan: DietPlan;
 }

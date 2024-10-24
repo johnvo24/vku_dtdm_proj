@@ -1,7 +1,8 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, OneToOne, JoinColumn } from 'typeorm';
 import { WorkoutSummary } from './workout_summary';
 import { UserWorkoutPlan } from './user_workout_plan';
 import { WorkoutDay } from './workout_day';
+import { WorkoutCategory } from './enum';
 
 @Entity('workout_plan')
 export class WorkoutPlan {
@@ -15,7 +16,7 @@ export class WorkoutPlan {
     plan_details: string;
 
     @Column('text', { array: true })
-    workout_categories: string[];
+    workout_categories: WorkoutCategory[];
 
     @Column({ nullable: true })
     cover_image: string;
@@ -26,8 +27,9 @@ export class WorkoutPlan {
     @Column({ default: false })
     is_delete: boolean;
 
-    @OneToMany(() => WorkoutSummary, workoutSummary => workoutSummary.workout_plan)
-    workout_summaries: WorkoutSummary[];
+    @OneToOne(() => WorkoutSummary, workoutSummary => workoutSummary.workout_plan)
+    @JoinColumn({ name: 'workout_summary_id' })
+    workout_summary: WorkoutSummary;
 
     @OneToMany(() => UserWorkoutPlan, userWorkoutPlan => userWorkoutPlan.workout_plan_id)
     user_workout_plans: UserWorkoutPlan[];

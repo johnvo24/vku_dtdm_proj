@@ -1,24 +1,29 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, PrimaryColumn } from 'typeorm';
 import { User } from './user';
 import { WorkoutPlan } from './workout_plan';
 
 @Entity('user_workout_plan')
 export class UserWorkoutPlan {
-    @PrimaryGeneratedColumn()
-    user_id: number;
+    @PrimaryColumn()
+    user_id: number; // Khóa ngoại tới bảng user
+
+    @PrimaryColumn()
+    workout_plan_id: number; // Khóa ngoại tới bảng workout_plan
 
     @Column()
-    start_date: Date;
+    start_date: Date; // Ngày bắt đầu
 
-    @Column({ default: 0 })
-    completed_session: number;
+    @Column({ type:'smallint' })
+    completed_session: number; // Số buổi đã hoàn thành
 
-    @ManyToOne(() => User, user => user.workoutPlans)
+    // Quan hệ n-1 với bảng User
+    @ManyToOne(() => User, user => user.user_workout_plans)
     @JoinColumn({ name: 'user_id' })
     user: User;
 
-
+    // Quan hệ n-1 với bảng WorkoutPlan
     @ManyToOne(() => WorkoutPlan, workoutPlan => workoutPlan.user_workout_plans)
-    workout_plan_id: WorkoutPlan;
+    @JoinColumn({ name: 'plan_id' })
+    workoutPlan: WorkoutPlan;
 
 }

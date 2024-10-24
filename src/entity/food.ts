@@ -7,28 +7,28 @@ export class Food {
     @PrimaryGeneratedColumn()
     food_id: number;
 
-    @Column({ length: 50 })
+    @Column({ length: 60 })
     food_name: string;
 
     @Column({
         type: 'enum',
         enum: FoodCategory
     })
-    category_food_id: string;
+    category_food: string;
 
     @Column({ nullable: true })
     calories: number;
 
-    @Column({ type: 'decimal', nullable: true })
+    @Column({ type: 'float', nullable: true })
     protein: number;
 
-    @Column({ type: 'decimal', nullable: true })
+    @Column({ type: 'float', nullable: true })
     carb: number;
 
-    @Column({ type: 'decimal', nullable: true })
+    @Column({ type: 'float', nullable: true })
     fat: number;
 
-    @Column({ type: 'decimal', nullable: true })
+    @Column({ type: 'float', nullable: true })
     cooking_time: number;
 
     @Column({ type: 'text', nullable: true })
@@ -37,7 +37,7 @@ export class Food {
     @Column({ type: 'text', nullable: true })
     cooking_instruction: string;
 
-    @Column({ nullable: true })
+    @Column({ nullable: true, type:"bytea" })
     cover_image: string;
 
     @OneToOne(() => DietPlanDetail, dietPlanDetail => dietPlanDetail.food)

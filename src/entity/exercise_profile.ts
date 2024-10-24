@@ -1,5 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from 'typeorm';
 import { Exercise } from './exercise';
+import { EquipmentRequired, ExerciseType, ExperienceLevel, ForceType, Mechanic, TargetMuscle } from './enum';
 
 @Entity('exercise_profile')
 export class ExerciseProfile {
@@ -8,39 +9,39 @@ export class ExerciseProfile {
 
     @Column({
         type: 'enum',
-        enum: ['Abductors', 'Abs', 'Adductors', 'Biceps', 'Calves', 'Chest', 'Forearms', 'Glutes', 'Hamstrings', 'HipFlexors', 'ITBand', 'Lats', 'LowerBack', 'UpperBack', 'Neck', 'Obliques', 'PalmarFascia', 'PlantarFascia', 'Quads', 'Shouders', 'Traps', 'Triceps']
+        enum: TargetMuscle
     })
     target_muscle: string;
 
     @Column({
         type: 'enum',
-        enum: ['Aerobic', 'Strength', 'Stretching', 'Balance']
+        enum: ExerciseType
     })
     exercise_type: string;
 
     @Column({
         type: 'enum',
-        enum: ['Beginner', 'Intermediate', 'Advanced']
+        enum: ExperienceLevel
     })
     experience_level: string;
 
     @Column({
         type: 'enum',
-        enum: ['Pull', 'Static', 'Isometric', 'Push'],
+        enum: ForceType,
         nullable: true
     })
     force_type: string;
 
     @Column({
         type: 'enum',
-        enum: ['Dumbbell', 'Barbell', 'Bodyweight', 'Cable', 'Machine', 'Exercise', 'EZ Bar', 'Kettle Bells', 'Lacrosse Ball'],
+        enum: EquipmentRequired,
         nullable: true
     })
     equipment_required: string;
 
     @Column({
         type: 'enum',
-        enum: ['Compound', 'Isolation'],
+        enum: Mechanic,
         nullable: true
     })
     mechanic: string;

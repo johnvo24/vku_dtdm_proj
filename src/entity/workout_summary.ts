@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToOne } from 'typeorm';
 import { WorkoutPlan } from './workout_plan';
 import { ExperienceLevel, FitnessGoal, Gender, WorkoutType } from './enum';
 
@@ -13,7 +13,7 @@ export class WorkoutSummary {
     })
     main_goal: string;
 
-    @Column()
+    @Column({type: 'smallint'})
     program_duration: number;
 
     @Column({
@@ -40,6 +40,6 @@ export class WorkoutSummary {
     })
     target_gender: string;
 
-    @ManyToOne(() => WorkoutPlan, workoutPlan => workoutPlan.workout_summaries)
+    @OneToOne(() => WorkoutPlan, workoutPlan => workoutPlan.workout_summary)
     workout_plan: WorkoutPlan;
 }

@@ -13,7 +13,7 @@ export class DietPlan {
     @Column()
     user_id: number;
 
-    @ManyToOne(() =>  User, user => user.dietPlans)
+    @ManyToOne(() =>  User, user => user.diet_plans)
     @JoinColumn({ name: 'user_id' }) // Kết nối đến trường user_id trong bảng diet_plan
     user: User;
 
