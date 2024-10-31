@@ -7,7 +7,7 @@ export class Food {
     @PrimaryGeneratedColumn()
     food_id: number;
 
-    @Column({ length: 60 })
+    @Column({ length: 60 }) 
     food_name: string;
 
     @Column({

@@ -8,26 +8,31 @@ export enum TargetMuscle {
     Forearms = 'Forearms',
     Glutes = 'Glutes',
     Hamstrings = 'Hamstrings',
-    HipFlexors = 'HipFlexors',
-    ITBand = 'ITBand',
+    HipFlexors = 'Hip Flexors',
+    ITBand = 'IT Band',
     Lats = 'Lats',
-    LowerBack = 'LowerBack',
-    UpperBack = 'UpperBack',
+    LowerBack = 'Lower Back',
+    UpperBack = 'Upper Back',
     Neck = 'Neck',
     Obliques = 'Obliques',
-    PalmarFascia = 'PalmarFascia',
-    PlantarFascia = 'PlantarFascia',
+    PalmarFascia = 'Palmar Fascia',
+    PlantarFascia = 'Plantar Fascia',
     Quads = 'Quads',
-    Shouders = 'Shouders',
+    Shoulders = 'Shoulders',
     Traps = 'Traps',
-    Triceps = 'Triceps'
+    Triceps = 'Triceps',
 }
 
 export enum ExerciseType {
     Aerobic = 'Aerobic',
     Strength = 'Strength',
     Stretching = 'Stretching',
-    Balance = 'Balance'
+    Balance = 'Balance',
+    Warmup = 'Warmup',
+    SMR ='SMR',
+    FoamRoll ='FoamRoll',
+    Activation= 'Activation',
+    Plyometrics ='Plyometrics'
 }
 
 export enum ExperienceLevel {
@@ -40,19 +45,34 @@ export enum ForceType {
     Pull = 'Pull',
     Static = 'Static',
     Isometric = 'Isometric',
-    Push = 'Push'
+    Push = 'Push',
+    DynamicStretching = 'Dynamic Stretching',
+    Compression = 'Compression',
+    NA = 'N/A',
+    Hinge = 'Hinge'
 }
 
 export enum EquipmentRequired {
     Dumbbell = 'Dumbbell',
     Barbell = 'Barbell',
+    Bands = 'Bands',
     Bodyweight = 'Bodyweight',
+    Bench = 'Bench',
     Cable = 'Cable',
     Machine = 'Machine',
-    Exercise = 'Exercise',
+    Other = 'Other',
+    JumpRope = 'Jump Rope',
+    ExerciseBall = 'Exercise Ball',
     EZBar = 'EZ Bar',
     KettleBells = 'Kettle Bells',
-    LacrosseBall = 'Lacrosse Ball'
+    LacrosseBall = 'Lacrosse Ball',
+    FoamRoll = 'Foam Roll',
+    TrapBar = 'Trap Bar',
+    Valslide = 'Valslide',
+    Rings ='Rings',
+    MedicineBall = 'Medicine Ball',
+    TigerTail ='Tiger Tail',
+    Landmine ='Landmine'
 }
 
 export enum Mechanic {
@@ -84,7 +104,8 @@ export enum FitnessGoal {
     MuscleBuilding = 'MuscleBuilding',
     IncreaseStrength = 'IncreaseStrength',
     SportsPerformance = 'SportsPerformance',
-    BodyWeight = 'BodyWeight'
+    BodyWeight = 'BodyWeight',
+    Cardio ='Cardio'
 }
 
 export enum DayOfWeek {

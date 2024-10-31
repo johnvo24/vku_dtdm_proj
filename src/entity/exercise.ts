@@ -26,7 +26,6 @@ export class Exercise {
     is_delete: boolean;
 
     @ManyToOne(() => WorkoutDay, workoutDay => workoutDay.exercise)
-    @JoinColumn({ name: 'workout_day_id' })
     workout_day: WorkoutDay;
 
     @OneToOne(() => ExerciseProfile, exerciseProfile => exerciseProfile.exercise)
