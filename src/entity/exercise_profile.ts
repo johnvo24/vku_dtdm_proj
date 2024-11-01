@@ -30,7 +30,7 @@ export class ExerciseProfile {
         enum: ForceType,
         nullable: true
     })
-    force_type: string;
+    force_type: ForceType;
 
     @Column({
         type: 'enum',
@@ -47,6 +47,5 @@ export class ExerciseProfile {
     mechanic: string;
 
     @OneToOne(() => Exercise, exercise => exercise.exerciseProfiles)
-    @JoinColumn({ name: 'exer_profile_id' })
     exercise: Exercise;
 }
