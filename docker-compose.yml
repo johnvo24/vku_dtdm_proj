@@ -1,18 +1,20 @@
 version: '3'
 services:
   postgres:
-    image: postgres:16.4
+    build:
+      context: ./postgres  # Thư mục chứa Dockerfile cho PostgreSQL
+      dockerfile: Dockerfile
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: 1234
       POSTGRES_DB: gym_app
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - postgres-data:/var/lib/postgresql/data
 
   app:
-    image: hunganhvn/gym-app-backend:setup
+    image: hunganhvn/gym-app-backend:newdb
     build: .
     environment:
       DB_HOST: postgres
