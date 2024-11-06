@@ -18,7 +18,7 @@ export class User {
     password: string;
 
     @Column({
-        type: 'enum',
+        type: 'smallint',
         enum: Gender,
     })
     gender: Gender;
@@ -30,7 +30,7 @@ export class User {
     phone_number: string;
 
     @Column({
-        type: 'enum',
+        type: 'smallint',
         enum: FitnessGoal,
     })
     fitness_goal: FitnessGoal;
@@ -47,13 +47,12 @@ export class User {
     @Column({ type: 'smallint', default: 0 })
     streak: number;
 
-    @Column({ type: 'text',nullable: true })
+    @Column({ type: 'text', nullable: true })
     advance_data: string;
 
     @OneToMany(() => DietPlan, dietPlan => dietPlan.user)
     diet_plans: DietPlan[];
 
-    // Quan hệ 1-n với user_workout_plan
     @OneToMany(() => UserWorkoutPlan, userWorkoutPlan => userWorkoutPlan.user)
     user_workout_plans: UserWorkoutPlan[];
 }

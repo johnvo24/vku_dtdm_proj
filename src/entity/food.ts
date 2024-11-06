@@ -7,14 +7,14 @@ export class Food {
     @PrimaryGeneratedColumn()
     food_id: number;
 
-    @Column({ length: 60 })
+    @Column({ length: 60 }) 
     food_name: string;
 
     @Column({
-        type: 'enum',
+        type: 'smallint',  // Đổi từ string thành smallint
         enum: FoodCategory
     })
-    category_food: string;
+    category_food: FoodCategory;
 
     @Column({ nullable: true })
     calories: number;
@@ -37,9 +37,9 @@ export class Food {
     @Column({ type: 'text', nullable: true })
     cooking_instruction: string;
 
-    @Column({ nullable: true, type:"bytea" })
+    @Column({ nullable: true, type: "bytea" })
     cover_image: string;
 
     @OneToOne(() => DietPlanDetail, dietPlanDetail => dietPlanDetail.food)
-    dietPlanDetail: DietPlanDetail;
+    dietPlanDetail: DietPlanDetail;  // Đã sửa thành đối tượng duy nhất thay vì food_id
 }

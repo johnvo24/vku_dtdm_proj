@@ -11,16 +11,16 @@ export class WorkoutDay {
     @Column()
     workout_plan_id: number;
 
-    @Column({ type: 'varchar', length: 40,})
+    @Column({ type: 'varchar', length: 40 })
     workout_day_name: string;
 
     @Column({
-        type: 'enum',
+        type: 'smallint',
         enum: DayOfWeek
     })
-    day_of_week: DayOfWeek;
+    day_of_week: DayOfWeek;  // Đổi sang kiểu DayOfWeek (int)
 
-    @Column({ type: 'smallint',})
+    @Column({ type: 'smallint' })
     set: number;
 
     @Column({

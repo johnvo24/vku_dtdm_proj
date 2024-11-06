@@ -26,12 +26,12 @@ class SuccessResponse {
   }
 }
 
+// Lớp phản hồi cho trường hợp 200 OK
 class OK extends SuccessResponse {
   constructor(message: string, metadata: object) {
-    super({ message, metadata });
+    super({ message, statusCode: StatusCodes.OK, reasonStatusCode: ReasonPhrases.OK, metadata });
   }
 }
-
 class CREATED extends SuccessResponse {
   constructor({
     message,

@@ -31,7 +31,8 @@
 //chay
 // b1 check duong dan trong file docker-compose.yml ( app:
 //    image:) , neu khhong trung duong dan thi sua 
-/// b2 terminal: docker-compose up --build    
+/// b2 terminal: docker-compose up --build (chạy lần đầu)
+//               docker-compose up -d 
 //  
 
 
