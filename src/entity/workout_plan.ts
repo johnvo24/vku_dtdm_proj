@@ -15,8 +15,8 @@ export class WorkoutPlan {
     @Column({ type: 'text', nullable: true })
     plan_details: string;
 
-    @Column('text', { array: true })
-    workout_categories: WorkoutCategory[];
+    @Column('smallint', { array: true })
+    workout_categories: WorkoutCategory[];  // Đổi sang kiểu array của int
 
     @Column({ nullable: true })
     cover_image: string;

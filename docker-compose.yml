@@ -14,7 +14,7 @@ services:
       - postgres-data:/var/lib/postgresql/data
 
   app:
-    image: hunganhvn/gym-app-backend:newdb
+    image: hunganhvn/gym-app-backend:config_db
     build: .
     environment:
       DB_HOST: postgres

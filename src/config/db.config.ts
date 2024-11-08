@@ -11,7 +11,9 @@ export const AppDataSource = new DataSource({
   username: process.env.DB_USERNAME || 'admin',
   password: process.env.DB_PASSWORD || '1234',
   database: process.env.DB_NAME || 'gym_app',
-  synchronize: true,  // Chỉ sử dụng ở môi trường phát triển, tắt ở production
+  //synchronize: true,  // Chỉ sử dụng ở môi trường phát triển, tắt ở production
+  synchronize: false,  
+ // migrations: true,
   logging: false,
   entities: ['src/entity/**/*.ts'],
   extra: {

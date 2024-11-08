@@ -1,32 +1,24 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, ManyToOne } from "typeorm";
-import { DietPlan } from "./diet_plan";
-import { DayOfWeek } from "./enum";
-import { Food } from "./food";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToOne, JoinColumn } from 'typeorm';
+import { DietPlan } from './diet_plan';
+import { Food } from './food';
+import { DayOfWeek } from './enum';
 
 @Entity('diet_plan_detail')
 export class DietPlanDetail {
     @PrimaryGeneratedColumn()
     diet_plan_detail_id: number;
 
-    @Column()
-    food_id: number; // Khóa ngoại tới food
-
-    @Column()
-    diet_plan_id: number; // Khóa ngoại tới diet_plan
-
     @Column({
-        type: 'enum',
+        type: 'smallint',
         enum: DayOfWeek
     })
     day_of_week: DayOfWeek;
 
-    // Quan hệ 1-1 với food
     @OneToOne(() => Food, food => food.dietPlanDetail)
     @JoinColumn({ name: 'food_id' })
-    food: Food;
+    food: Food;  // Thay food_id bằng đối tượng Food
 
-    // Quan hệ n-1 với diet_plan
     @ManyToOne(() => DietPlan, dietPlan => dietPlan.dietPlanDetails)
     @JoinColumn({ name: 'diet_plan_id' })
-    dietPlan: DietPlan;
+    dietPlan: DietPlan;  // Thay diet_plan_id bằng đối tượng DietPlan
 }

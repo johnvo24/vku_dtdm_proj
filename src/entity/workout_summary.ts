@@ -8,25 +8,25 @@ export class WorkoutSummary {
     workout_summary_id: number;
 
     @Column({
-        type: 'enum',
+        type: 'smallint',
         enum: FitnessGoal
     })
-    main_goal: string;
+    main_goal: FitnessGoal;  // Đổi sang kiểu FitnessGoal (int)
 
-    @Column({type: 'smallint'})
+    @Column({ type: 'smallint' })
     program_duration: number;
 
     @Column({
-        type: 'enum',
+        type: 'smallint',
         enum: WorkoutType
     })
-    workout_type: string;
+    workout_type: WorkoutType;  // Đổi sang kiểu WorkoutType (int)
 
     @Column({
-        type: 'enum',
+        type: 'smallint',
         enum: ExperienceLevel
     })
-    training_level: string;
+    training_level: ExperienceLevel;  // Đổi sang kiểu ExperienceLevel (int)
 
     @Column()
     day_per_week: number;
@@ -35,10 +35,10 @@ export class WorkoutSummary {
     time_per_workout: number;
 
     @Column({
-        type: 'enum',
+        type: 'smallint',
         enum: Gender
     })
-    target_gender: string;
+    target_gender: Gender;  // Đổi sang kiểu Gender (int)
 
     @OneToOne(() => WorkoutPlan, workoutPlan => workoutPlan.workout_summary)
     workout_plan: WorkoutPlan;

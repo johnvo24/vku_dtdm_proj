@@ -8,44 +8,44 @@ export class ExerciseProfile {
     exer_profile_id: number;
 
     @Column({
-        type: 'enum',
+        type: 'smallint',
         enum: TargetMuscle
     })
-    target_muscle: string;
+    target_muscle: TargetMuscle;
 
     @Column({
-        type: 'enum',
+        type: 'smallint',
         enum: ExerciseType
     })
-    exercise_type: string;
+    exercise_type: ExerciseType;
 
     @Column({
-        type: 'enum',
+        type: 'smallint',
         enum: ExperienceLevel
     })
-    experience_level: string;
+    experience_level: ExperienceLevel;
 
     @Column({
-        type: 'enum',
+        type: 'smallint',
         enum: ForceType,
         nullable: true
     })
     force_type: ForceType;
 
     @Column({
-        type: 'enum',
+        type: 'smallint',
         enum: EquipmentRequired,
         nullable: true
     })
-    equipment_required: string;
+    equipment_required: EquipmentRequired;
 
     @Column({
-        type: 'enum',
+        type: 'smallint',
         enum: Mechanic,
         nullable: true
     })
-    mechanic: string;
+    mechanic: Mechanic;
 
-    @OneToOne(() => Exercise, exercise => exercise.exerciseProfiles)
+    @OneToOne(() => Exercise, exercise => exercise.exercise_profile)
     exercise: Exercise;
 }

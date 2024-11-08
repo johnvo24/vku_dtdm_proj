@@ -224,6 +224,23 @@ CREATE TYPE public.workout_day_day_of_week_enum AS ENUM (
 ALTER TYPE public.workout_day_day_of_week_enum OWNER TO admin;
 
 --
+-- Name: workout_day_day_of_week_smallint_enum; Type: TYPE; Schema: public; Owner: admin
+--
+
+CREATE TYPE public.workout_day_day_of_week_smallint_enum AS ENUM (
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7'
+);
+
+
+ALTER TYPE public.workout_day_day_of_week_smallint_enum OWNER TO admin;
+
+--
 -- Name: workout_summary_main_goal_enum; Type: TYPE; Schema: public; Owner: admin
 --
 
@@ -302,7 +319,7 @@ CREATE TABLE public.diet_plan_detail (
     diet_plan_detail_id integer NOT NULL,
     food_id integer NOT NULL,
     diet_plan_id integer NOT NULL,
-    day_of_week public.diet_plan_detail_day_of_week_enum NOT NULL
+    day_of_week smallint NOT NULL
 );
 
 
@@ -364,7 +381,7 @@ CREATE TABLE public.exercise (
     tip text[] NOT NULL,
     cover_image character varying,
     is_delete boolean DEFAULT false NOT NULL,
-    "workoutDayWorkoutDayId" integer
+    workout_day_id integer
 );
 
 
@@ -398,12 +415,12 @@ ALTER SEQUENCE public.exercise_exercise_id_seq OWNED BY public.exercise.exercise
 
 CREATE TABLE public.exercise_profile (
     exer_profile_id integer NOT NULL,
-    target_muscle public.exercise_profile_target_muscle_enum NOT NULL,
-    exercise_type public.exercise_profile_exercise_type_enum NOT NULL,
-    experience_level public.exercise_profile_experience_level_enum NOT NULL,
-    force_type public.exercise_profile_force_type_enum,
-    equipment_required public.exercise_profile_equipment_required_enum,
-    mechanic public.exercise_profile_mechanic_enum
+    target_muscle smallint NOT NULL,
+    exercise_type smallint NOT NULL,
+    experience_level smallint NOT NULL,
+    force_type smallint,
+    equipment_required smallint,
+    mechanic smallint
 );
 
 
@@ -438,7 +455,7 @@ ALTER SEQUENCE public.exercise_profile_exer_profile_id_seq OWNED BY public.exerc
 CREATE TABLE public.food (
     food_id integer NOT NULL,
     food_name character varying(60) NOT NULL,
-    category_food public.food_category_food_enum NOT NULL,
+    category_food smallint NOT NULL,
     calories integer,
     protein double precision,
     carb double precision,
@@ -475,42 +492,6 @@ ALTER SEQUENCE public.food_food_id_seq OWNED BY public.food.food_id;
 
 
 --
--- Name: test_user; Type: TABLE; Schema: public; Owner: admin
---
-
-CREATE TABLE public.test_user (
-    id integer NOT NULL,
-    username character varying NOT NULL,
-    password character varying NOT NULL,
-    role character varying NOT NULL
-);
-
-
-ALTER TABLE public.test_user OWNER TO admin;
-
---
--- Name: test_user_id_seq; Type: SEQUENCE; Schema: public; Owner: admin
---
-
-CREATE SEQUENCE public.test_user_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER SEQUENCE public.test_user_id_seq OWNER TO admin;
-
---
--- Name: test_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
---
-
-ALTER SEQUENCE public.test_user_id_seq OWNED BY public.test_user.id;
-
-
---
 -- Name: user; Type: TABLE; Schema: public; Owner: admin
 --
 
@@ -519,10 +500,10 @@ CREATE TABLE public."user" (
     fullname character varying(40) NOT NULL,
     username character varying(16) NOT NULL,
     password character varying(32) NOT NULL,
-    gender public.user_gender_enum NOT NULL,
+    gender smallint NOT NULL,
     email character varying(255) NOT NULL,
     phone_number character varying(10) NOT NULL,
-    fitness_goal public.user_fitness_goal_enum NOT NULL,
+    fitness_goal smallint NOT NULL,
     age smallint NOT NULL,
     weight double precision NOT NULL,
     height double precision NOT NULL,
@@ -578,9 +559,10 @@ CREATE TABLE public.workout_day (
     workout_day_id integer NOT NULL,
     workout_plan_id integer NOT NULL,
     workout_day_name character varying(40) NOT NULL,
-    day_of_week public.workout_day_day_of_week_enum NOT NULL,
     set smallint NOT NULL,
-    reps smallint[] NOT NULL
+    reps smallint[] NOT NULL,
+    exercise_id integer,
+    day_of_week smallint
 );
 
 
@@ -654,13 +636,13 @@ ALTER SEQUENCE public.workout_plan_plan_id_seq OWNED BY public.workout_plan.plan
 
 CREATE TABLE public.workout_summary (
     workout_summary_id integer NOT NULL,
-    main_goal public.workout_summary_main_goal_enum NOT NULL,
+    main_goal smallint NOT NULL,
     program_duration smallint NOT NULL,
-    workout_type public.workout_summary_workout_type_enum NOT NULL,
-    training_level public.workout_summary_training_level_enum NOT NULL,
+    workout_type smallint NOT NULL,
+    training_level smallint NOT NULL,
     day_per_week integer NOT NULL,
     time_per_workout integer NOT NULL,
-    target_gender public.workout_summary_target_gender_enum NOT NULL
+    target_gender smallint NOT NULL
 );
 
 
@@ -724,13 +706,6 @@ ALTER TABLE ONLY public.food ALTER COLUMN food_id SET DEFAULT nextval('public.fo
 
 
 --
--- Name: test_user id; Type: DEFAULT; Schema: public; Owner: admin
---
-
-ALTER TABLE ONLY public.test_user ALTER COLUMN id SET DEFAULT nextval('public.test_user_id_seq'::regclass);
-
-
---
 -- Name: user user_id; Type: DEFAULT; Schema: public; Owner: admin
 --
 
@@ -778,7 +753,7 @@ COPY public.diet_plan_detail (diet_plan_detail_id, food_id, diet_plan_id, day_of
 -- Data for Name: exercise; Type: TABLE DATA; Schema: public; Owner: admin
 --
 
-COPY public.exercise (exercise_id, title, exer_profile_id, instruction, tip, cover_image, is_delete, "workoutDayWorkoutDayId") FROM stdin;
+COPY public.exercise (exercise_id, title, exer_profile_id, instruction, tip, cover_image, is_delete, workout_day_id) FROM stdin;
 8	Ab Crunch	8	{"Lay supine in a relaxed position with your knees up and hands across your chest.","Exhale and squeeze your abs as you curl your upper body off the floor.","Once your abs are fully contracted and your upper back is off the floor, slowly lower yourself back to the starting position.","Complete for the assigned number of repetitions."}	{"Exhale hard like you’re blowing out candles on a cake and hold the contraction for a second in order to improve mind muscle connection.","If your lower back bothers you during this exercise, choose more anti extension and anti rotation based movements.","Avoid putting the hands behind the head as this can lead to excess strain upon the neck."}	https://cdn.muscleandstrength.com/sites/default/files/ab-crunch.jpg	f	\N
 9	Floor Crunch (legs on bench)	9	{"Set up for the floor crunch by laying a mat down on the floor and positioning a flat bench at the end of the mat to form a T shape.","Lay down on the mat and put your legs up on the bench. Your calves should be resting on the top of the bench and your legs should be bent at right angles.","Touch the side of your head with your fingertips (do not put your arms behind your neck!).","Lift your shoulder blades slightly off the mat to start the exercise, then crunch your abs bringing your elbows in towards your waist.","Pause for 1 second at the top, and slowly lower back down to the start position.","Keep your shoulder blades just off the mat for the entire set.","Pause for longer at the top of the movement to add extra intensity."}	{}	https://cdn.muscleandstrength.com/sites/default/files/styles/400x250/public/field/image/exercise/floorcrunchfeetonbench1.jpg?itok=P1emW6WQ	f	\N
 10	Twisting Hanging Knee Raise	10	{"The twisting hanging knee raise hits the lower abs and obliques. You can hang off literally anything that will hold your weight for this exercise. Most people will hang from a pull up bar. Hang off the with a slightly wider than shoulder width grip.","Once you're hanging with your feet slightly off the floor, pull your knees up and across to the left side of your body.","Pause, then slowly lower them back down.","Now raise your knees up and across to the right hand side of your body.","Lower back to start position. This is one rep.","Repeat for desired reps.","Hold at the top of the movement (with your knees up) to increase the intensity of the twisting knee raise.","Advanced athletes can add weight by holding a dumbbell between the feet."}	{}	https://cdn.muscleandstrength.com/sites/default/files/styles/400x250/public/field/image/exercise/twistinghangingkneeraise1.jpg?itok=UX7nxYTD	f	\N
@@ -813,7 +788,6 @@ COPY public.exercise (exercise_id, title, exer_profile_id, instruction, tip, cov
 32	Cross Body Hammer Curl (Pinwheel Curls)	32	{"Set up for the cross body hammer curl by grasping a pair of dumbbells and holding them at your sides.","You should be using a neutral grip (palms facing the body) and have a slight bend in your arms. This is the starting position for the exercise.","Beginning with one arm, slowly curl the dumbbell up across the front of your body as shown in the video demonstration.","Squeeze the bicep at the top of the movement, and then slowly lower the weight back to the starting position.","Repeat this movement for your other arm.","This is one rep. Now repeat to complete your set."}	{}	https://cdn.muscleandstrength.com/sites/default/files/styles/800x500/public/cross-body-hammer-curl-pinwheel-curls.jpg?itok=SUe72NcQ	f	\N
 33	Barbell Preacher Curl	33	{"Load the desired weight on the barbell, and sit in an upright position with your chest flat against the preacher bench.","Keep your upper arm pressed into the pad and use a supinated grip (palms facing up).","Extend your arms until your biceps are fully lengthened. This is the starting position.","Take a deep breath and curl the weight by bending at the elbows until the bar is at shoulder height.","Squeeze the biceps at the top of the movement and slowly lower the bar back to the starting position.","Repeat for the desired number of repetitions."}	{}	https://cdn.muscleandstrength.com/sites/default/files/styles/800x500/public/barbell-preacher-curl.jpg?itok=Kfi5NiIN	f	\N
 34	Alternating Seated Dumbbell Curl	34	{"Set up for the alternating seated dumbbell curl by grabbing a flat bench or adjustable bench and placing a set of dumbbells at one end.","Sit on the end of the bench with your feet out in front of you and your knees together.","Pick up the dumbbells from the floor and let them hang by your sides with your palms facing up.","Bend the arms slightly to take the tension into the biceps. This is the starting position for the exercise.","With your back straight and your elbows tucked in at your sides, slowly curl the dumbbell up with one arm.","Squeeze the bicep hard, then slowly lower the weight back to the starting position.","Repeat for the other arm, and then repeat for desired reps."}	{}	https://cdn.muscleandstrength.com/sites/default/files/styles/800x500/public/alternating-seated-dumbbell-curl.jpg?itok=WHFSfZ6C	f	\N
-35	EZ Bar Curl	35	{"Grasp an EZ bar at around shoulder width apart using an underhand grip (palms facing up).","Stand straight up, feet together (you may be more comfortable taking one foot back for stability), back straight, and with your arms fully extended. The bar should not be touching your body.","Keeping your eyes facing forward, elbows tucked in at your sides, and your body completely still, slowly curl the bar up.","Squeeze your biceps hard at the top of the movement, and then slowly lower it back to the starting position.","Repeat for desired reps."}	{}	\N	f	\N
 36	Machine Bicep Curl	36	{"Set up for the machine bicep curl by setting the seat height and selecting the weight you want to use on the stack.","Adjust the seat height so your upper arms rest comfortably on the padding.","Grasp the bar with an underhand grip around shoulder width apart.","Bend the elbows slightly to take the weight up and place tension on the biceps.","Slowly curl the weight up as far as possible, squeezing the biceps at the top of the movement.","Pause, and then slowly lower the weight.","Repeat for desired reps."}	{}	https://cdn.muscleandstrength.com/sites/default/files/styles/800x500/public/machine-bicep-curl.jpg?itok=Ee4Dbv3O	f	\N
 37	One-Arm Seated Dumbbell Curl	37	{"Set up for the one-arm seated dumbbell curl by grabbing a flat bench or adjustable bench and placing a dumbbell at one end. If you're using an adjustable bench, adjust the back to a 90-degree angle.","Sit on the end of the bench with your feet out in front of you and your knees together.","Pick up the dumbbell with one hand and bend the arm slightly to take the tension into the bicep. This is the starting position for the exercise.","With your back straight and your elbow tucked in at your side, slowly curl the dumbbell up as far as possible.","Squeeze the bicep hard,  and then slowly lower the weight back to the starting position.","Repeat for desired reps, and then repeat for the other arm."}	{}	https://cdn.muscleandstrength.com/sites/default/files/styles/800x500/public/one-arm-seated-dumbbell-curl.jpg?itok=EbEhN7Vi	f	\N
 38	Barbell Drag Curl	38	{"Select the desired weight, load it onto the bar, and assume a shoulder width stance.","Using a supinated (palms up) grip, take a deep breath and curl the barbell towards your shoulders.","As you pull the bar upwards, keep it close to your torso by allowing the elbows to drift slightly behind the body.","Once the biceps are fully shortened, slowly lower the weight back to the starting position.","Repeat for the desired number of repetitions."}	{"Maintain a slight bend in the elbow at the bottom of the movement to keep tension through the biceps.","Using a slow eccentric (lowering portion) of the exercise can help to improve tension and mind muscle connection.","If you experience forearm or wrist discomfort while using a barbell, switch to an EZ curl bar or dumbbells."}	https://cdn.muscleandstrength.com/sites/default/files/barbell-drag-curl-1.jpg	f	\N
@@ -979,6 +953,7 @@ COPY public.exercise (exercise_id, title, exer_profile_id, instruction, tip, cov
 198	One-Arm Seated Cable Row	199	{"Attach a single handle to the low pulley cable machine and set the amount of weight you want to use.","Sit down facing the cable with your knees slightly bent.","With your right hand, grab the handle using an overhand grip and take the weight off the stack.","Keep your back straight and shoulders back. Slowly pull the weight towards your side twisting at the wrist.","Pull the weight as far as possible, and squeeze your shoulder blade at the top of the movement.","Pause, and then slowly lower the weight back to the starting position (do not let the weight touch the stack).","Repeat for desired reps, and then repeat for the other arm."}	{}	https://cdn.muscleandstrength.com/sites/default/files/styles/800x500/public/one-arm-seated-cable-row.jpg?itok=CsXQOrcc	f	\N
 199	One-Arm Bent-Over Row	200	{"Set up for the exercise by getting an Olympic bar and setting one end in a secure location where it cannot move, like the corner of the room or up against a wall.","On the opposite end of the Olympic bar, add your desired weight plate(s).","Facing the weighted end of the bar, position yourself with one leg on each side of the bar with your feet shoulder width apart.","Bend your knees slightly and place your left hand on your left knee.","With your right hand, grab the bar close to the weight plates.","Keeping your back straight, raise the bar slightly off the floor. This is the starting position for the exercise.","Pull the bar straight up with your right arm as far as possible, squeezing your shoulder blade in at the top of the movement.","Pause and slowly lower the weight back to the starting position.","Repeat for desired reps, and then repeat for the opposite side of the body."}	{}	https://cdn.muscleandstrength.com/sites/default/files/styles/800x500/public/one-arm-bent-over-barbell-row.jpg?itok=NDNpF66C	f	\N
 200	Palm Rotational Row	201	{"Select the appropriate dumbbells and place them on the floor in front of you.","Bending at the knees and keeping your back straight, squat down and pick up the dumbbells with an overhand grip (palms facing the floor).","Get into the starting position by keeping your back straight and bending at the knees. Let the dumbbells slide down your thighs until they're just below knee height.","Pull the dumbbells up towards your stomach. While pulling the dumbbells up, twist at the wrist from an over hand to an under hand position.","As you lower the dumbbells, reverse this twist so you end the rep within the overhand position."}	{}	https://cdn.muscleandstrength.com/sites/default/files/styles/800x500/public/palm-rotational-row.jpg?itok=3ztNa7J9	f	\N
+35	EZ Bar Curl	35	{"Grasp an EZ bar at around shoulder width apart using an underhand grip (palms facing up).","Stand straight up, feet together (you may be more comfortable taking one foot back for stability), back straight, and with your arms fully extended. The bar should not be touching your body.","Keeping your eyes facing forward, elbows tucked in at your sides, and your body completely still, slowly curl the bar up.","Squeeze your biceps hard at the top of the movement, and then slowly lower it back to the starting position.","Repeat for desired reps."}	{}	https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTZHDrzBEdtJoOTmJtgr6CubGdNXnXfQ072Xg&s	f	\N
 \.
 
 
@@ -987,206 +962,206 @@ COPY public.exercise (exercise_id, title, exer_profile_id, instruction, tip, cov
 --
 
 COPY public.exercise_profile (exer_profile_id, target_muscle, exercise_type, experience_level, force_type, equipment_required, mechanic) FROM stdin;
-80	Forearms	Strength	Beginner	Pull	Dumbbell	Isolation
-81	Forearms	Strength	Beginner	Pull	EZ Bar	Isolation
-82	Hamstrings	Strength	Beginner	Pull	Dumbbell	Compound
-83	Hamstrings	Strength	Intermediate	Hinge	Barbell	Compound
-84	Hamstrings	Strength	Beginner	Pull	Machine	Isolation
-85	Hamstrings	Strength	Intermediate	Hinge	Barbell	Compound
-86	Hamstrings	Strength	Beginner	Hinge	Barbell	Compound
-87	Hamstrings	Strength	Intermediate	Pull	Dumbbell	Isolation
-88	Hamstrings	Strength	Beginner	Pull	Dumbbell	Compound
-89	Hamstrings	Strength	Intermediate	Hinge	Barbell	Compound
-1	Abductors	Strength	Beginner	Push	Machine	Isolation
-2	Abductors	Strength	Beginner	N/A	Cable	Isolation
-3	Abs	Strength	Intermediate	Pull	Other	Isolation
-4	Abs	Strength	Beginner	Pull	Dumbbell	Isolation
-5	Abs	Strength	Beginner	Static	Bodyweight	Isolation
-6	Abs	Strength	Advanced	Pull	Bodyweight	Isolation
-7	Abs	Strength	Intermediate	N/A	Barbell	Compound
-8	Abs	Strength	Beginner	Pull	Bodyweight	Isolation
-9	Abs	Strength	Beginner	Pull	Bodyweight	Isolation
-10	Abs	Strength	Intermediate	Pull	Bodyweight	Compound
-11	Abs	Strength	Intermediate	Pull	Bodyweight	Isolation
-12	Abs	Strength	Beginner	N/A	Bodyweight	Compound
-13	Abs	Strength	Intermediate	N/A	Bodyweight	Isolation
-14	Abs	Strength	Beginner	N/A	Bodyweight	Isolation
-15	Abs	Strength	Intermediate	Push	Kettle Bells	Compound
-16	Abs	Strength	Beginner	Pull	Bodyweight	Isolation
-17	Adductors	Strength	Beginner	Push	Machine	Isolation
-18	Adductors	Warmup	Beginner	Dynamic Stretching	Kettle Bells	Compound
-19	Adductors	Warmup	Beginner	Dynamic Stretching	Bodyweight	Compound
-20	Adductors	Warmup	Beginner	Dynamic Stretching	Bodyweight	Compound
-21	Adductors	Strength	Beginner	N/A	Cable	Isolation
-22	Adductors	SMR	Beginner	Compression	Foam Roll	Isolation
-23	Adductors	Warmup	Beginner	Dynamic Stretching	Bodyweight	Compound
-24	Biceps	Strength	Beginner	Pull	Dumbbell	Isolation
-25	Biceps	Strength	Beginner	Pull	Dumbbell	Isolation
-26	Biceps	Strength	Beginner	Pull	Dumbbell	Isolation
-27	Biceps	Strength	Beginner	Pull	Barbell	Isolation
-28	Biceps	Strength	Beginner	Pull	Cable	Isolation
-29	Biceps	Strength	Beginner	Pull	Barbell	Isolation
-30	Biceps	Strength	Beginner	Pull	Dumbbell	Isolation
-31	Biceps	Strength	Intermediate	Pull	Dumbbell	Isolation
-32	Biceps	Strength	Beginner	Pull	Dumbbell	Isolation
-33	Biceps	Strength	Beginner	Pull	Barbell	Isolation
-34	Biceps	Strength	Beginner	Pull	Dumbbell	Isolation
-35	Biceps	Strength	Beginner	Pull	Barbell	Isolation
-36	Biceps	Strength	Beginner	Pull	Machine	Isolation
-37	Biceps	Strength	Beginner	Pull	Dumbbell	Isolation
-38	Biceps	Strength	Beginner	Pull	Barbell	Isolation
-39	Biceps	Strength	Beginner	Pull	Dumbbell	Isolation
-40	Calves	Strength	Beginner	Push	Machine	Isolation
-41	Calves	Strength	Beginner	Push	Dumbbell	Isolation
-42	Calves	Strength	Beginner	Push	Machine	Isolation
-43	Calves	Strength	Beginner	Push	Machine	Isolation
-44	Calves	Strength	Beginner	Push	Dumbbell	Isolation
-45	Calves	Strength	Beginner	Push	Bodyweight	Isolation
-46	Calves	Strength	Beginner	Push	Barbell	Isolation
-47	Calves	Strength	Beginner	Push	Machine	Isolation
-48	Calves	Strength	Beginner	Push	Dumbbell	Isolation
-49	Calves	Strength	Beginner	Pull	Bands	Isolation
-50	Calves	Strength	Beginner	Push	Bodyweight	Isolation
-51	Calves	Strength	Beginner	Push	Bodyweight	Isolation
-52	Calves	Strength	Beginner	Push	Barbell	Isolation
-53	Calves	SMR	Beginner	Compression	Foam Roll	Isolation
-54	Calves	Strength	Beginner	Push	Machine	Isolation
-55	Chest	Strength	Beginner	Push	Dumbbell	Compound
-56	Chest	Strength	Intermediate	Push	Dumbbell	Compound
-57	Chest	Strength	Beginner	Push	Dumbbell	Compound
-58	Chest	Strength	Beginner	Push	Dumbbell	Isolation
-59	Chest	Strength	Intermediate	Push	Barbell	Compound
-60	Chest	Strength	Beginner	Push	Machine	Isolation
-61	Chest	Strength	Beginner	Push	Barbell	Compound
-62	Chest	Strength	Beginner	Push	Cable	Isolation
-63	Chest	Strength	Intermediate	Pull	Barbell	Compound
-64	Chest	Strength	Beginner	Push	Bench	Compound
-65	Chest	Strength	Beginner	Push	Dumbbell	Compound
-66	Forearms	Strength	Beginner	Pull	Barbell	Isolation
-67	Forearms	Strength	Beginner	Pull	Barbell	Isolation
-68	Forearms	Strength	Beginner	Pull	Barbell	Isolation
-69	Forearms	Strength	Beginner	Pull	Cable	Isolation
-70	Forearms	Strength	Beginner	Isometric	Dumbbell	Compound
-71	Forearms	Strength	Beginner	Pull	Dumbbell	Isolation
-72	Forearms	Strength	Beginner	Pull	Dumbbell	Isolation
-73	Forearms	Strength	Beginner	Pull	EZ Bar	Isolation
-74	Forearms	Strength	Beginner	Pull	Barbell	Isolation
-75	Forearms	Strength	Beginner	Pull	Barbell	Isolation
-76	Forearms	Strength	Beginner	Pull	Barbell	Isolation
-77	Forearms	Strength	Beginner	Pull	Cable	Isolation
-78	Forearms	Strength	Beginner	Isometric	Dumbbell	Compound
-79	Forearms	Strength	Beginner	Pull	Dumbbell	Isolation
-90	Hamstrings	Strength	Beginner	Pull	Machine	Isolation
-91	Hamstrings	Strength	Intermediate	Hinge	Barbell	Compound
-92	Hamstrings	Strength	Beginner	Hinge	Barbell	Compound
-93	Hamstrings	Strength	Intermediate	Pull	Dumbbell	Isolation
-94	Hamstrings	Strength	Beginner	Hinge	Trap Bar	Compound
-95	Hamstrings	Strength	Beginner	Hinge	Trap Bar	Compound
-96	Hamstrings	Strength	Beginner	Push	Cable	Isolation
-97	Hamstrings	Strength	Beginner	Pull	Machine	Isolation
-98	Hamstrings	Warmup	Intermediate	Pull	Bodyweight	Compound
-99	Hamstrings	Strength	Beginner	Hinge	Barbell	Compound
-100	Hamstrings	Strength	Beginner	Pull	Machine	Isolation
-101	Hamstrings	Strength	Beginner	Pull	Valslide	Isolation
-102	Hamstrings	Strength	Beginner	Hinge	Trap Bar	Compound
-103	Hamstrings	Warmup	Beginner	Dynamic Stretching	Bodyweight	Compound
-104	Glutes	Strength	Beginner	Hinge	Bodyweight	Isolation
-105	Glutes	Strength	Intermediate	Push	Barbell	Isolation
-106	Glutes	Strength	Intermediate	Hinge	Barbell	Compound
-107	Glutes	Strength	Beginner	Push	Machine	Isolation
-108	Glutes	Strength	Beginner	Push	Bodyweight	Isolation
-109	Glutes	Strength	Intermediate	Push	Machine	Compound
-110	Glutes	Strength	Beginner	Push	Bodyweight	Isolation
-111	Glutes	Strength	Intermediate	Hinge	Bodyweight	Isolation
-112	Glutes	SMR	Beginner	Compression	Foam Roll	Isolation
-113	Glutes	Strength	Intermediate	Push	Bodyweight	Isolation
-114	Glutes	Strength	Intermediate	Hinge	Barbell	Compound
-115	Glutes	Activation	Beginner	Push	Bands	Compound
-116	Hip Flexors	Activation	Beginner	Pull	Bands	Compound
-117	Hip Flexors	Warmup	Beginner	Dynamic Stretching	Bodyweight	Compound
-118	Hip Flexors	Warmup	Beginner	Dynamic Stretching	Bodyweight	Compound
-119	Hip Flexors	SMR	Intermediate	Compression	Lacrosse Ball	Isolation
-120	Hip Flexors	Warmup	Beginner	Dynamic Stretching	Bodyweight	Compound
-121	Hip Flexors	Warmup	Beginner	Dynamic Stretching	Bodyweight	Compound
-122	Hip Flexors	SMR	Beginner	Compression	Foam Roll	Isolation
-123	Hip Flexors	Activation	Beginner	Pull	Bands	Compound
-124	IT Band	SMR	Beginner	Compression	Foam Roll	Isolation
-125	Lats	Strength	Beginner	Pull	Cable	Compound
-126	Lats	Strength	Beginner	Pull	Cable	Compound
-127	Lats	Strength	Beginner	Pull	Bodyweight	Compound
-128	Lats	Strength	Beginner	Pull	Cable	Compound
-129	Lats	Strength	Beginner	Pull	Bodyweight	Compound
-130	Lats	Strength	Beginner	Pull	Machine	Compound
-131	Lats	Strength	Beginner	Pull	Bodyweight	Compound
-132	Lats	Strength	Beginner	Pull	Machine	Compound
-133	Lats	Strength	Beginner	Pull	Cable	Compound
-134	Lats	Strength	Beginner	Pull	Bodyweight	Compound
-135	Lats	Strength	Beginner	Pull	Machine	Compound
-136	Lats	Strength	Intermediate	Pull	Rings	Compound
-137	Lats	Strength	Intermediate	Pull	Bodyweight	Compound
-138	Lats	Strength	Intermediate	Pull	Rings	Compound
-139	Lats	Strength	Intermediate	Pull	Bodyweight	Compound
-140	Lower Back	Strength	Beginner	Pull	Dumbbell	Compound
-141	Lower Back	Strength	Beginner	Hinge	Bodyweight	Isolation
-142	Lower Back	Strength	Intermediate	Pull	Machine	Compound
-143	Lower Back	Warmup	Beginner	Dynamic Stretching	Bodyweight	Compound
-144	Lower Back	Warmup	Beginner	Dynamic Stretching	Bodyweight	Compound
-145	Neck	SMR	Beginner	Compression	Tiger Tail	Isolation
-146	Neck	SMR	Beginner	Compression	Tiger Tail	Isolation
-147	Obliques	Strength	Beginner	Pull	Bodyweight	Isolation
-148	Obliques	Strength	Beginner	Isometric	Cable	Compound
-149	Palmar Fascia	SMR	Intermediate	Compression	Lacrosse Ball	Isolation
-150	Plantar Fascia	SMR	Intermediate	Compression	Lacrosse Ball	Isolation
-151	Plantar Fascia	SMR	Intermediate	Compression	Lacrosse Ball	Isolation
-152	Quads	Strength	Intermediate	Push	Barbell	Compound
-153	Quads	Strength	Beginner	Push	Dumbbell	Compound
-154	Quads	Strength	Beginner	Push	Dumbbell	Compound
-155	Quads	Strength	Beginner	Push	Machine	Compound
-156	Quads	Strength	Beginner	Push	Machine	Isolation
-157	Quads	Strength	Beginner	Push	Dumbbell	Compound
-158	Quads	Strength	Intermediate	Push	Dumbbell	Compound
-160	Shoulders	Strength	Beginner	Pull	Dumbbell	Isolation
-161	Shoulders	Strength	Intermediate	Push	Barbell	Compound
-162	Shoulders	Strength	Beginner	Pull	Dumbbell	Isolation
-163	Shoulders	Strength	Beginner	Push	Dumbbell	Compound
-164	Shoulders	Strength	Beginner	Push	Dumbbell	Compound
-165	Shoulders	Strength	Beginner	Push	Machine	Compound
-166	Shoulders	Strength	Intermediate	Push	Dumbbell	Compound
-167	Shoulders	Strength	Beginner	Pull	Dumbbell	Isolation
-168	Shoulders	Strength	Beginner	Pull	Dumbbell	Isolation
-169	Shoulders	Strength	Beginner	Push	Barbell	Compound
-170	Shoulders	Strength	Beginner	Pull	Cable	Compound
-171	Traps	Strength	Beginner	Pull	Barbell	Compound
-172	Traps	Strength	Beginner	Pull	Dumbbell	Isolation
-173	Traps	Strength	Beginner	Pull	Barbell	Isolation
-174	Traps	Strength	Beginner	Pull	Dumbbell	Isolation
-175	Traps	Strength	Beginner	Pull	Dumbbell	Compound
-176	Traps	Strength	Intermediate	Pull	Barbell	Compound
-177	Triceps	Strength	Beginner	Push	Cable	Isolation
-178	Triceps	Strength	Beginner	Push	Dumbbell	Isolation
-179	Triceps	Strength	Intermediate	Push	Dumbbell	Isolation
-180	Triceps	Strength	Beginner	Push	Cable	Isolation
-181	Triceps	Strength	Beginner	Push	Dumbbell	Compound
-182	Triceps	Strength	Beginner	Push	Dumbbell	Isolation
-183	Triceps	Strength	Advanced	Push	Other	Compound
-184	Triceps	Strength	Beginner	Push	Bodyweight	Compound
-185	Triceps	Strength	Intermediate	Push	Barbell	Isolation
-186	Triceps	Strength	Beginner	Push	Cable	Isolation
-187	Triceps	Strength	Beginner	Push	Dumbbell	Isolation
-188	Triceps	Strength	Beginner	Push	Bodyweight	Compound
-189	Upper Back	Strength	Beginner	Pull	Dumbbell	Compound
-190	Upper Back	Strength	Beginner	Pull	Dumbbell	Compound
-191	Upper Back	Strength	Beginner	Pull	Barbell	Compound
-192	Upper Back	Strength	Beginner	Pull	Cable	Compound
-193	Upper Back	Strength	Beginner	Pull	Dumbbell	Compound
-194	Upper Back	Strength	Intermediate	Pull	Dumbbell	Compound
-195	Upper Back	Strength	Beginner	Pull	Machine	Compound
-196	Upper Back	Strength	Beginner	Pull	Dumbbell	Compound
-197	Upper Back	Strength	Beginner	Pull	Barbell	Compound
-198	Upper Back	Warmup	Beginner	Dynamic Stretching	Foam Roll	Isolation
-199	Upper Back	Strength	Beginner	Pull	Cable	Compound
-200	Upper Back	Strength	Intermediate	Pull	Barbell	Compound
-201	Upper Back	Strength	Intermediate	Pull	Dumbbell	Compound
+80	7	2	1	1	1	2
+81	7	2	1	1	11	2
+82	9	2	1	1	1	1
+83	9	2	2	8	2	1
+84	9	2	1	1	7	2
+85	9	2	2	8	2	1
+86	9	2	1	8	2	1
+87	9	2	2	1	1	2
+88	9	2	1	1	1	1
+89	9	2	2	8	2	1
+1	1	2	1	4	7	2
+2	1	2	1	7	6	2
+3	2	2	2	1	8	2
+4	2	2	1	1	1	2
+5	2	2	1	2	4	2
+6	2	2	3	1	4	2
+7	2	2	2	7	2	1
+8	2	2	1	1	4	2
+9	2	2	1	1	4	2
+10	2	2	2	1	4	1
+11	2	2	2	1	4	2
+12	2	2	1	7	4	1
+13	2	2	2	7	4	2
+14	2	2	1	7	4	2
+15	2	2	2	4	12	1
+16	2	2	1	1	4	2
+17	3	2	1	4	7	2
+18	3	5	1	5	12	1
+19	3	5	1	5	4	1
+20	3	5	1	5	4	1
+21	3	2	1	7	6	2
+22	3	6	1	6	14	2
+23	3	5	1	5	4	1
+24	4	2	1	1	1	2
+25	4	2	1	1	1	2
+26	4	2	1	1	1	2
+27	4	2	1	1	2	2
+28	4	2	1	1	6	2
+29	4	2	1	1	2	2
+30	4	2	1	1	1	2
+31	4	2	2	1	1	2
+32	4	2	1	1	1	2
+33	4	2	1	1	2	2
+34	4	2	1	1	1	2
+35	4	2	1	1	2	2
+36	4	2	1	1	7	2
+37	4	2	1	1	1	2
+38	4	2	1	1	2	2
+39	4	2	1	1	1	2
+40	5	2	1	4	7	2
+41	5	2	1	4	1	2
+42	5	2	1	4	7	2
+43	5	2	1	4	7	2
+44	5	2	1	4	1	2
+45	5	2	1	4	4	2
+46	5	2	1	4	2	2
+47	5	2	1	4	7	2
+48	5	2	1	4	1	2
+49	5	2	1	1	3	2
+50	5	2	1	4	4	2
+51	5	2	1	4	4	2
+52	5	2	1	4	2	2
+53	5	6	1	6	14	2
+54	5	2	1	4	7	2
+55	6	2	1	4	1	1
+56	6	2	2	4	1	1
+57	6	2	1	4	1	1
+58	6	2	1	4	1	2
+59	6	2	2	4	2	1
+60	6	2	1	4	7	2
+61	6	2	1	4	2	1
+62	6	2	1	4	6	2
+63	6	2	2	1	2	1
+64	6	2	1	4	5	1
+65	6	2	1	4	1	1
+66	7	2	1	1	2	2
+67	7	2	1	1	2	2
+68	7	2	1	1	2	2
+69	7	2	1	1	6	2
+70	7	2	1	3	1	1
+71	7	2	1	1	1	2
+72	7	2	1	1	1	2
+73	7	2	1	1	11	2
+74	7	2	1	1	2	2
+75	7	2	1	1	2	2
+76	7	2	1	1	2	2
+77	7	2	1	1	6	2
+78	7	2	1	3	1	1
+79	7	2	1	1	1	2
+90	9	2	1	1	7	2
+91	9	2	2	8	2	1
+92	9	2	1	8	2	1
+93	9	2	2	1	1	2
+94	9	2	1	8	15	1
+95	9	2	1	8	15	1
+96	9	2	1	4	6	2
+97	9	2	1	1	7	2
+98	9	5	2	1	4	1
+99	9	2	1	8	2	1
+100	9	2	1	1	7	2
+101	9	2	1	1	16	2
+102	9	2	1	8	15	1
+103	9	5	1	5	4	1
+104	8	2	1	8	4	2
+105	8	2	2	4	2	2
+106	8	2	2	8	2	1
+107	8	2	1	4	7	2
+108	8	2	1	4	4	2
+109	8	2	2	4	7	1
+110	8	2	1	4	4	2
+111	8	2	2	8	4	2
+112	8	6	1	6	14	2
+113	8	2	2	4	4	2
+114	8	2	2	8	2	1
+115	8	8	1	4	3	1
+116	10	8	1	1	3	1
+117	10	5	1	5	4	1
+118	10	5	1	5	4	1
+119	10	6	2	6	13	2
+120	10	5	1	5	4	1
+121	10	5	1	5	4	1
+122	10	6	1	6	14	2
+123	10	8	1	1	3	1
+124	11	6	1	6	14	2
+125	12	2	1	1	6	1
+126	12	2	1	1	6	1
+127	12	2	1	1	4	1
+128	12	2	1	1	6	1
+129	12	2	1	1	4	1
+130	12	2	1	1	7	1
+131	12	2	1	1	4	1
+132	12	2	1	1	7	1
+133	12	2	1	1	6	1
+134	12	2	1	1	4	1
+135	12	2	1	1	7	1
+136	12	2	2	1	17	1
+137	12	2	2	1	4	1
+138	12	2	2	1	17	1
+139	12	2	2	1	4	1
+140	13	2	1	1	1	1
+141	13	2	1	8	4	2
+142	13	2	2	1	7	1
+143	13	5	1	5	4	1
+144	13	5	1	5	4	1
+145	15	6	1	6	19	2
+146	15	6	1	6	19	2
+147	16	2	1	1	4	2
+148	16	2	1	3	6	1
+149	17	6	2	6	13	2
+150	18	6	2	6	13	2
+151	18	6	2	6	13	2
+152	19	2	2	4	2	1
+153	19	2	1	4	1	1
+154	19	2	1	4	1	1
+155	19	2	1	4	7	1
+156	19	2	1	4	7	2
+157	19	2	1	4	1	1
+158	19	2	2	4	1	1
+160	20	2	1	1	1	2
+161	20	2	2	4	2	1
+162	20	2	1	1	1	2
+163	20	2	1	4	1	1
+164	20	2	1	4	1	1
+165	20	2	1	4	7	1
+166	20	2	2	4	1	1
+167	20	2	1	1	1	2
+168	20	2	1	1	1	2
+169	20	2	1	4	2	1
+170	20	2	1	1	6	1
+171	21	2	1	1	2	1
+172	21	2	1	1	1	2
+173	21	2	1	1	2	2
+174	21	2	1	1	1	2
+175	21	2	1	1	1	1
+176	21	2	2	1	2	1
+177	22	2	1	4	6	2
+178	22	2	1	4	1	2
+179	22	2	2	4	1	2
+180	22	2	1	4	6	2
+181	22	2	1	4	1	1
+182	22	2	1	4	1	2
+183	22	2	3	4	8	1
+184	22	2	1	4	4	1
+185	22	2	2	4	2	2
+186	22	2	1	4	6	2
+187	22	2	1	4	1	2
+188	22	2	1	4	4	1
+189	14	2	1	1	1	1
+190	14	2	1	1	1	1
+191	14	2	1	1	2	1
+192	14	2	1	1	6	1
+193	14	2	1	1	1	1
+194	14	2	2	1	1	1
+195	14	2	1	1	7	1
+196	14	2	1	1	1	1
+197	14	2	1	1	2	1
+198	14	5	1	5	14	2
+199	14	2	1	1	6	1
+200	14	2	2	1	2	1
+201	14	2	2	1	1	1
 \.
 
 
@@ -1195,17 +1170,6 @@ COPY public.exercise_profile (exer_profile_id, target_muscle, exercise_type, exp
 --
 
 COPY public.food (food_id, food_name, category_food, calories, protein, carb, fat, cooking_time, ingredient, cooking_instruction, cover_image) FROM stdin;
-\.
-
-
---
--- Data for Name: test_user; Type: TABLE DATA; Schema: public; Owner: admin
---
-
-COPY public.test_user (id, username, password, role) FROM stdin;
-2	ngoc huy	Huyhuy007	1
-3	ngoc huy2	Huyhuy007	1
-5	ngoc huy3	Huyhuy007	1
 \.
 
 
@@ -1229,7 +1193,7 @@ COPY public.user_workout_plan (user_id, workout_plan_id, start_date, completed_s
 -- Data for Name: workout_day; Type: TABLE DATA; Schema: public; Owner: admin
 --
 
-COPY public.workout_day (workout_day_id, workout_plan_id, workout_day_name, day_of_week, set, reps) FROM stdin;
+COPY public.workout_day (workout_day_id, workout_plan_id, workout_day_name, set, reps, exercise_id, day_of_week) FROM stdin;
 \.
 
 
@@ -1282,13 +1246,6 @@ SELECT pg_catalog.setval('public.exercise_profile_exer_profile_id_seq', 201, tru
 --
 
 SELECT pg_catalog.setval('public.food_food_id_seq', 1, false);
-
-
---
--- Name: test_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
---
-
-SELECT pg_catalog.setval('public.test_user_id_seq', 5, true);
 
 
 --
@@ -1392,14 +1349,6 @@ ALTER TABLE ONLY public.exercise
 
 
 --
--- Name: test_user PK_d96d7dbdf10d76556f90a6b2d0f; Type: CONSTRAINT; Schema: public; Owner: admin
---
-
-ALTER TABLE ONLY public.test_user
-    ADD CONSTRAINT "PK_d96d7dbdf10d76556f90a6b2d0f" PRIMARY KEY (id);
-
-
---
 -- Name: workout_day PK_f6954978dade5287bd1ae4a7a2f; Type: CONSTRAINT; Schema: public; Owner: admin
 --
 
@@ -1432,14 +1381,6 @@ ALTER TABLE ONLY public.diet_plan_detail
 
 
 --
--- Name: test_user UQ_1b3c5c6a735759457873238bab3; Type: CONSTRAINT; Schema: public; Owner: admin
---
-
-ALTER TABLE ONLY public.test_user
-    ADD CONSTRAINT "UQ_1b3c5c6a735759457873238bab3" UNIQUE (username);
-
-
---
 -- Name: workout_plan FK_04e12a0449a9fcd92649dda9e55; Type: FK CONSTRAINT; Schema: public; Owner: admin
 --
 
@@ -1461,14 +1402,6 @@ ALTER TABLE ONLY public.user_workout_plan
 
 ALTER TABLE ONLY public.user_workout_plan
     ADD CONSTRAINT "FK_36cbdbcc8236b7515bf236b173b" FOREIGN KEY (user_id) REFERENCES public."user"(user_id);
-
-
---
--- Name: exercise FK_3757843fd9015a0ae32118d72b1; Type: FK CONSTRAINT; Schema: public; Owner: admin
---
-
-ALTER TABLE ONLY public.exercise
-    ADD CONSTRAINT "FK_3757843fd9015a0ae32118d72b1" FOREIGN KEY ("workoutDayWorkoutDayId") REFERENCES public.workout_day(workout_day_id);
 
 
 --
@@ -1509,6 +1442,14 @@ ALTER TABLE ONLY public.diet_plan_detail
 
 ALTER TABLE ONLY public.diet_plan
     ADD CONSTRAINT "FK_f0c78231afe316a3b97006e72fb" FOREIGN KEY (user_id) REFERENCES public."user"(user_id);
+
+
+--
+-- Name: workout_day fk_exercise; Type: FK CONSTRAINT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY public.workout_day
+    ADD CONSTRAINT fk_exercise FOREIGN KEY (exercise_id) REFERENCES public.exercise(exercise_id) ON DELETE CASCADE;
 
 
 --
