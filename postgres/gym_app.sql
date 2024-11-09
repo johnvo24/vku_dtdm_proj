@@ -1,3 +1,4 @@
+-- SQLBook: Code
 --
 -- PostgreSQL database dump
 --
@@ -598,7 +599,7 @@ CREATE TABLE public.workout_plan (
     plan_id integer NOT NULL,
     plan_name character varying(255) NOT NULL,
     plan_details text,
-    workout_categories text[] NOT NULL,
+    workout_categories SMALLINT[] NOT NULL,
     cover_image character varying,
     create_at timestamp without time zone DEFAULT now() NOT NULL,
     is_delete boolean DEFAULT false NOT NULL,
