@@ -3,6 +3,7 @@
 import { Router } from 'express';
 import testRouter from './test/test.route';
 import exerciseRouter from './exercise/exercise.route';
+import workoutRouter from './workout/workout.route';
 const router = Router();
 
 // Import các route
@@ -13,6 +14,7 @@ const router = Router();
 //test
 router.use('/api/test', testRouter);
 router.use('/api/exercises', exerciseRouter);
+router.use('/api/workouts', workoutRouter);
 
 
 export default router;

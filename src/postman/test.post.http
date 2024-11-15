@@ -1,9 +1,8 @@
 
-POST http://localhost:3000/api/test/register
-Content-Type: application/json
+# GET http://localhost:3000/api/workouts/list?limit=10&offset=0
+# Content-Type: application/json
 
-{
-     "username": "ngoc huy3",
-     "role": "1",
-     "password": "Huyhuy007"
-}
+
+
+GET http://localhost:3000/api/workouts/2
+Content-Type: application/json

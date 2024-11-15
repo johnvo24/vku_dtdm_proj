@@ -1,6 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne, OneToOne, JoinColumn } from 'typeorm';
 import { ExerciseProfile } from './exercise_profile';
 import { WorkoutDay } from './workout_day';
+import { ExerciseDay } from './exercise_day';
 
 @Entity('exercise')
 export class Exercise {
@@ -10,8 +11,8 @@ export class Exercise {
     @Column({ length: 50 })
     title: string;
 
-    @Column()
-    exer_profile_id: number;
+    // @Column()
+    // exer_profile_id: number;
 
     @Column('text', { array: true })
     instruction: string[];
@@ -25,10 +26,9 @@ export class Exercise {
     @Column({ default: false })
     is_delete: boolean;
 
-     // Quan hệ n-1 với bảng WorkoutDay
-     @ManyToOne(() => WorkoutDay, workoutDay => workoutDay.exercise)
-     @JoinColumn({ name: 'workout_day_id' }) // Dùng để cấu hình khóa ngoại nếu cần
-     workout_day: WorkoutDay;  // Quan hệ n-1, Exercise sẽ thuộc về 1 WorkoutDay
+    
+    @OneToOne(() => ExerciseDay, exerciseDay => exerciseDay.exercise)
+    exercise_day: ExerciseDay;
 
     @OneToOne(() => ExerciseProfile, exerciseProfile => exerciseProfile.exercise)
     @JoinColumn({ name: 'exer_profile_id' })

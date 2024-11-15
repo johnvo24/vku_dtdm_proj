@@ -2,6 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, JoinColum
 import { WorkoutPlan } from './workout_plan';
 import { Exercise } from './exercise';
 import { DayOfWeek } from './enum';
+import { ExerciseDay } from './exercise_day';
 
 @Entity('workout_day')
 export class WorkoutDay {
@@ -33,6 +34,6 @@ export class WorkoutDay {
     @JoinColumn({ name: 'workout_plan_id' })
     workout_plan: WorkoutPlan;
 
-    @OneToMany(() => Exercise, exercise => exercise.workout_day)
+    @OneToMany(() => ExerciseDay, exerciseDay => exerciseDay.workout_day)
     exercise: Exercise[];
 }
