@@ -402,6 +402,27 @@ CREATE TABLE public.exercise_day (
 ALTER TABLE public.exercise_day OWNER TO admin;
 
 --
+-- Name: exercise_day_exercise_day_id_seq; Type: SEQUENCE; Schema: public; Owner: admin
+--
+
+CREATE SEQUENCE public.exercise_day_exercise_day_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.exercise_day_exercise_day_id_seq OWNER TO admin;
+
+--
+-- Name: exercise_day_exercise_day_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
+--
+
+ALTER SEQUENCE public.exercise_day_exercise_day_id_seq OWNED BY public.exercise_day.exercise_day_id;
+
+
+--
 -- Name: exercise_day_id_seq; Type: SEQUENCE; Schema: public; Owner: admin
 --
 
@@ -528,77 +549,6 @@ ALTER SEQUENCE public.food_food_id_seq OWNED BY public.food.food_id;
 
 
 --
--- Name: migrations; Type: TABLE; Schema: public; Owner: admin
---
-
-CREATE TABLE public.migrations (
-    id integer NOT NULL,
-    "timestamp" bigint NOT NULL,
-    name character varying NOT NULL
-);
-
-
-ALTER TABLE public.migrations OWNER TO admin;
-
---
--- Name: migrations_id_seq; Type: SEQUENCE; Schema: public; Owner: admin
---
-
-CREATE SEQUENCE public.migrations_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER SEQUENCE public.migrations_id_seq OWNER TO admin;
-
---
--- Name: migrations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
---
-
-ALTER SEQUENCE public.migrations_id_seq OWNED BY public.migrations.id;
-
-
---
--- Name: test_user; Type: TABLE; Schema: public; Owner: admin
---
-
-CREATE TABLE public.test_user (
-    id integer NOT NULL,
-    username character varying NOT NULL,
-    password character varying NOT NULL,
-    role character varying NOT NULL
-);
-
-
-ALTER TABLE public.test_user OWNER TO admin;
-
---
--- Name: test_user_id_seq; Type: SEQUENCE; Schema: public; Owner: admin
---
-
-CREATE SEQUENCE public.test_user_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER SEQUENCE public.test_user_id_seq OWNER TO admin;
-
---
--- Name: test_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
---
-
-ALTER SEQUENCE public.test_user_id_seq OWNED BY public.test_user.id;
-
-
---
 -- Name: user; Type: TABLE; Schema: public; Owner: admin
 --
 
@@ -606,16 +556,16 @@ CREATE TABLE public."user" (
     user_id integer NOT NULL,
     fullname character varying(40) NOT NULL,
     username character varying(16) NOT NULL,
-    password character varying(32) NOT NULL,
-    gender smallint NOT NULL,
+    gender smallint,
     email character varying(255) NOT NULL,
-    phone_number character varying(10) NOT NULL,
-    fitness_goal smallint NOT NULL,
-    age smallint NOT NULL,
-    weight double precision NOT NULL,
-    height double precision NOT NULL,
+    phone_number character varying(10),
+    fitness_goal smallint,
+    age smallint,
+    weight double precision,
+    height double precision,
     streak smallint DEFAULT '0'::smallint NOT NULL,
-    advance_data text
+    advance_data text,
+    password character varying(150) NOT NULL
 );
 
 
@@ -798,7 +748,7 @@ ALTER TABLE ONLY public.exercise ALTER COLUMN exercise_id SET DEFAULT nextval('p
 -- Name: exercise_day exercise_day_id; Type: DEFAULT; Schema: public; Owner: admin
 --
 
-ALTER TABLE ONLY public.exercise_day ALTER COLUMN exercise_day_id SET DEFAULT nextval('public.exercise_day_id_seq'::regclass);
+ALTER TABLE ONLY public.exercise_day ALTER COLUMN exercise_day_id SET DEFAULT nextval('public.exercise_day_exercise_day_id_seq'::regclass);
 
 
 --
@@ -813,20 +763,6 @@ ALTER TABLE ONLY public.exercise_profile ALTER COLUMN exer_profile_id SET DEFAUL
 --
 
 ALTER TABLE ONLY public.food ALTER COLUMN food_id SET DEFAULT nextval('public.food_food_id_seq'::regclass);
-
-
---
--- Name: migrations id; Type: DEFAULT; Schema: public; Owner: admin
---
-
-ALTER TABLE ONLY public.migrations ALTER COLUMN id SET DEFAULT nextval('public.migrations_id_seq'::regclass);
-
-
---
--- Name: test_user id; Type: DEFAULT; Schema: public; Owner: admin
---
-
-ALTER TABLE ONLY public.test_user ALTER COLUMN id SET DEFAULT nextval('public.test_user_id_seq'::regclass);
 
 
 --
@@ -1306,26 +1242,11 @@ COPY public.food (food_id, food_name, category_food, calories, protein, carb, fa
 
 
 --
--- Data for Name: migrations; Type: TABLE DATA; Schema: public; Owner: admin
---
-
-COPY public.migrations (id, "timestamp", name) FROM stdin;
-\.
-
-
---
--- Data for Name: test_user; Type: TABLE DATA; Schema: public; Owner: admin
---
-
-COPY public.test_user (id, username, password, role) FROM stdin;
-\.
-
-
---
 -- Data for Name: user; Type: TABLE DATA; Schema: public; Owner: admin
 --
 
-COPY public."user" (user_id, fullname, username, password, gender, email, phone_number, fitness_goal, age, weight, height, streak, advance_data) FROM stdin;
+COPY public."user" (user_id, fullname, username, gender, email, phone_number, fitness_goal, age, weight, height, streak, advance_data, password) FROM stdin;
+3	Trần Ngọc Huy	ngochuy123	\N	huy123@gmail.com	\N	\N	\N	\N	\N	0	\N	$2a$10$iWMzys/MlCAmgUJcF4QFMOXmzPiAQAwwa/GQnt4l6txFm7jfRcNXi
 \.
 
 
@@ -1376,6 +1297,13 @@ SELECT pg_catalog.setval('public.diet_plan_diet_plan_id_seq', 1, false);
 
 
 --
+-- Name: exercise_day_exercise_day_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
+--
+
+SELECT pg_catalog.setval('public.exercise_day_exercise_day_id_seq', 1, false);
+
+
+--
 -- Name: exercise_day_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
 --
 
@@ -1404,24 +1332,10 @@ SELECT pg_catalog.setval('public.food_food_id_seq', 1, false);
 
 
 --
--- Name: migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
---
-
-SELECT pg_catalog.setval('public.migrations_id_seq', 1, false);
-
-
---
--- Name: test_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
---
-
-SELECT pg_catalog.setval('public.test_user_id_seq', 1, false);
-
-
---
 -- Name: user_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
 --
 
-SELECT pg_catalog.setval('public.user_user_id_seq', 1, false);
+SELECT pg_catalog.setval('public.user_user_id_seq', 3, true);
 
 
 --
@@ -1494,14 +1408,6 @@ ALTER TABLE ONLY public.user_workout_plan
 
 
 --
--- Name: migrations PK_8c82d7f526340ab734260ea46be; Type: CONSTRAINT; Schema: public; Owner: admin
---
-
-ALTER TABLE ONLY public.migrations
-    ADD CONSTRAINT "PK_8c82d7f526340ab734260ea46be" PRIMARY KEY (id);
-
-
---
 -- Name: food PK_b8715442695c0d7174fa132f39d; Type: CONSTRAINT; Schema: public; Owner: admin
 --
 
@@ -1531,14 +1437,6 @@ ALTER TABLE ONLY public.diet_plan_detail
 
 ALTER TABLE ONLY public.exercise
     ADD CONSTRAINT "PK_d1650f62d215bae2e6f2acdce98" PRIMARY KEY (exercise_id);
-
-
---
--- Name: test_user PK_d96d7dbdf10d76556f90a6b2d0f; Type: CONSTRAINT; Schema: public; Owner: admin
---
-
-ALTER TABLE ONLY public.test_user
-    ADD CONSTRAINT "PK_d96d7dbdf10d76556f90a6b2d0f" PRIMARY KEY (id);
 
 
 --
@@ -1579,14 +1477,6 @@ ALTER TABLE ONLY public.exercise_day
 
 ALTER TABLE ONLY public.diet_plan_detail
     ADD CONSTRAINT "REL_ed18fe6eb1a30bcd3db805542a" UNIQUE (food_id);
-
-
---
--- Name: test_user UQ_1b3c5c6a735759457873238bab3; Type: CONSTRAINT; Schema: public; Owner: admin
---
-
-ALTER TABLE ONLY public.test_user
-    ADD CONSTRAINT "UQ_1b3c5c6a735759457873238bab3" UNIQUE (username);
 
 
 --
@@ -1667,46 +1557,6 @@ ALTER TABLE ONLY public.diet_plan_detail
 
 ALTER TABLE ONLY public.diet_plan
     ADD CONSTRAINT "FK_f0c78231afe316a3b97006e72fb" FOREIGN KEY (user_id) REFERENCES public."user"(user_id);
-
-
---
--- Name: exercise fk_exer_profile_id; Type: FK CONSTRAINT; Schema: public; Owner: admin
---
-
-ALTER TABLE ONLY public.exercise
-    ADD CONSTRAINT fk_exer_profile_id FOREIGN KEY (exer_profile_id) REFERENCES public.exercise_profile(exer_profile_id);
-
-
---
--- Name: exercise_day fk_exercise_day_workout_day; Type: FK CONSTRAINT; Schema: public; Owner: admin
---
-
-ALTER TABLE ONLY public.exercise_day
-    ADD CONSTRAINT fk_exercise_day_workout_day FOREIGN KEY (workout_day_id) REFERENCES public.workout_day(workout_day_id);
-
-
---
--- Name: exercise_day fk_exercise_id; Type: FK CONSTRAINT; Schema: public; Owner: admin
---
-
-ALTER TABLE ONLY public.exercise_day
-    ADD CONSTRAINT fk_exercise_id FOREIGN KEY (exercise_id) REFERENCES public.exercise(exercise_id);
-
-
---
--- Name: exercise_day fk_workout_day_id; Type: FK CONSTRAINT; Schema: public; Owner: admin
---
-
-ALTER TABLE ONLY public.exercise_day
-    ADD CONSTRAINT fk_workout_day_id FOREIGN KEY (workout_day_id) REFERENCES public.workout_day(workout_day_id);
-
-
---
--- Name: workout_day fk_workout_plan_id; Type: FK CONSTRAINT; Schema: public; Owner: admin
---
-
-ALTER TABLE ONLY public.workout_day
-    ADD CONSTRAINT fk_workout_plan_id FOREIGN KEY (workout_plan_id) REFERENCES public.workout_plan(plan_id);
 
 
 --

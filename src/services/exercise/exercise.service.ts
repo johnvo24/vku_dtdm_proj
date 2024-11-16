@@ -1,6 +1,6 @@
 import { Exercise, ExerciseProfile } from "../../entity/";
 import { AppDataSource } from "../../config/db.config";
-import { NotFoundError } from "../../core/error.response";
+import { BadRequestError, NotFoundError } from "../../core/error.response";
 
 export class ExerciseService {
     private exerciseRepository = AppDataSource.getRepository(Exercise);
@@ -48,6 +48,21 @@ export class ExerciseService {
                 cover_image: exercise.cover_image,
                 exer_profile_id: exercise.exercise_profile?.exer_profile_id
             }));
+        } catch (error) {
+            throw error
+        }
+    }
+    async getExerciseDetail(exercise_id: number): Promise<any> {
+        if (!exercise_id) {
+            throw new BadRequestError("Missing exercise_id!");
+        }
+        try {
+            // Tìm kiếm người dùng theo username
+            const exercise = await this.exerciseRepository.findOne({
+                where: { exercise_id },
+                select: ["exercise_id", "title", "instruction", "tip", "cover_image"], // Chỉ lấy các trường cần thiết
+            });
+            return exercise
         } catch (error) {
             throw error
         }
