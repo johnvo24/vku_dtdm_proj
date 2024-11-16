@@ -1,43 +1,9 @@
-# version: '3'
-# services:
-#   postgres:
-#     build:
-#       context: ./postgres  # Thư mục chứa Dockerfile cho PostgreSQL
-#       dockerfile: Dockerfile
-#     environment:
-#       POSTGRES_USER: admin
-#       POSTGRES_PASSWORD: 1234
-#       POSTGRES_DB: gym_app
-#     ports:
-#       - "5433:5432"
-#     volumes:
-#       - postgres-data:/var/lib/postgresql/data
-
-#   app:
-#     image: hunganhvn/gym-app-backend:config_db
-#     build: .
-#     environment:
-#       DB_HOST: postgres
-#       DB_PORT: 5432
-#       DB_USERNAME: admin
-#       DB_PASSWORD: 1234
-#       DB_NAME: gym_app
-#       PORT: 3000
-#     ports:
-#       - "3000:3000"
-#     depends_on:
-#       - postgres
-#     volumes:
-#       - .:/app
-#     command: npm run start
-
-# volumes:
-#   postgres-data:
-
+version: '3'
 services:
   postgres:
     build:
       context: ./postgres  # Thư mục chứa Dockerfile cho PostgreSQL
+      dockerfile: Dockerfile
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: 1234
@@ -46,11 +12,10 @@ services:
       - "5433:5432"
     volumes:
       - postgres-data:/var/lib/postgresql/data
-    networks:
-      - gym-network
 
   app:
     image: hunganhvn/gym-app-backend:config_db
+    build: .
     environment:
       DB_HOST: postgres
       DB_PORT: 5432
@@ -62,13 +27,52 @@ services:
       - "3000:3000"
     depends_on:
       - postgres
-    networks:
-      - gym-network
+    volumes:
+      - .:/app
 
 volumes:
   postgres-data:
-    driver: local
 
-networks:
-  gym-network:
-    driver: bridge
+# services:
+#   postgres:
+#     build:
+#       context: ./postgres  # Thư mục chứa Dockerfile cho PostgreSQL
+#     environment:
+#       POSTGRES_USER: admin
+#       POSTGRES_PASSWORD: 1234
+#       POSTGRES_DB: gym_app
+#     ports:
+#       - "5433:5432"
+#     volumes:
+#       - postgres-data:/var/lib/postgresql/data
+#     networks:
+#       - gym-network
+#     healthcheck:
+#       test: ["CMD-SHELL", "pg_isready -U admin"]
+#       interval: 10s
+#       timeout: 5s
+#       retries: 5
+
+#   app:
+#     image: hunganhvn/gym-app-backend:db2
+#     environment:
+#       DB_HOST: postgres
+#       DB_PORT: 5432
+#       DB_USERNAME: admin
+#       DB_PASSWORD: 1234
+#       DB_NAME: gym_app
+#       PORT: 3000
+#     ports:
+#       - "3000:3000"
+#     depends_on:
+#       - postgres
+#     networks:
+#       - gym-network
+
+# volumes:
+#   postgres-data:
+#     driver: local
+
+# networks:
+#   gym-network:
+#     driver: bridge

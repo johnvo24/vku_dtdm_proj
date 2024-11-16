@@ -1,0 +1,3 @@
+
+GET http://127.0.0.1:3000/api/exercises/list?experience_level=1&target_muscle=3&offset=8
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsInV1aWQiOiJkM2VlNTRhYi01YmY3LTQyNjAtOWNmMy02MzVmZGYxZTg3YjAiLCJpYXQiOjE3MzE3NTU4MDQsImV4cCI6MTczMTc2NjYwNH0.PpaJ2ByenpXdWOK2WM5_Kx9hAsfqbSLFmb9LsrVN6YE
