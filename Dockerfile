@@ -14,7 +14,7 @@ RUN npm install
 COPY . .
 
 # # Kiểm tra cài đặt ts-node
-# RUN npm list -g ts-node
+RUN npm list -g ts-node
 
 # Biên dịch TypeScript sang JavaScript
 RUN npm run build
