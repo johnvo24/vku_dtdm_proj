@@ -28,9 +28,9 @@ export class WorkoutService {
             'wd.workout_day_name AS wd_workout_day_name', 
             'wd.day_of_week AS wd_day_of_week',
             'subquery.ed_exercise_day_id AS subquery_exercise_day_id', 
-            // 'subquery.e_title AS subquery_title', 
-            // 'subquery.ed_reps AS subquery_reps', 
-            // 'subquery.ed_set AS subquery_set'
+            'subquery.e_title AS subquery_title', 
+            'subquery.ed_reps AS subquery_reps', 
+            'subquery.ed_set AS subquery_set'
         ])
         .from(WorkoutDay, 'wd')
         .innerJoin(
@@ -57,21 +57,34 @@ export class WorkoutService {
             return null; // No workout plan found
         }
 
-        const { wp_plan_id, wp_plan_name, wp_cover_image, wd_workout_day_name, wd_day_of_week } = rawResults[0];
+        const { wp_plan_id, wp_plan_name, wp_cover_image, wd_workout_day_name, wd_day_of_week, ed_exercise_id, e_title, ed_reps, ed_set } = rawResults[0];
         log('rawResults', rawResults[0]);
+
+        const workoutDays = rawResults.reduce((acc, row) => {
+            const { wd_workout_day_id, wd_workout_day_name, wd_day_of_week, subquery_exercise_day_id, subquery_title, subquery_reps, subquery_set } = row;
+            if (!acc[wd_workout_day_id]) {
+                acc[wd_workout_day_id] = {
+                    wd_workout_day_id,
+                    wd_workout_day_name,
+                    wd_day_of_week,
+                    exercises: []
+                };
+            }
+            acc[wd_workout_day_id].exercises.push({
+                ed_exercise_day_id: subquery_exercise_day_id,
+                e_title: subquery_title,
+                ed_reps: subquery_reps,
+                ed_set: subquery_set,
+            });
+            return acc;
+        }, {});
 
         return {
             workout_plan: {
                 wp_plan_id,
                 wp_plan_name,
                 wp_cover_image,
-                workout_day: rawResults.map(row => {
-                    return {
-                        wd_workout_day_id: row.wd_workout_day_id,
-                        wd_workout_day_name: row.wd_workout_day_name,
-                        wd_day_of_week: row.wd_day_of_week,
-                    };
-                }),
+                workout_day: Object.values(workoutDays),
             },
         };
 
