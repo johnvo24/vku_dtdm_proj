@@ -1,4 +1,4 @@
-import { Exercise, ExerciseProfile } from "../../entity/";
+import { Exercise } from "../../entity/";
 import { AppDataSource } from "../../config/db.config";
 import { BadRequestError, NotFoundError } from "../../core/error.response";
 
@@ -58,10 +58,26 @@ export class ExerciseService {
         }
         try {
             // Tìm kiếm người dùng theo username
-            const exercise = await this.exerciseRepository.findOne({
-                where: { exercise_id },
-                select: ["exercise_id", "title", "instruction", "tip", "cover_image"], // Chỉ lấy các trường cần thiết
-            });
+            // const exercise = await this.exerciseRepository.findOne({
+            //     where: { exercise_id },
+            //     select: ["exercise_id", "instruction", "tip", ], // Chỉ lấy các trường cần thiết
+            // });
+
+            const exercise = await this.exerciseRepository
+                .createQueryBuilder('exercise')
+                .leftJoinAndSelect('exercise.exercise_profile', 'exercise_profile')
+                .where('exercise.exercise_id = :exercise_id', { exercise_id })
+                .select([
+                    'exercise.instruction',
+                    'exercise.tip',
+                    'exercise_profile.exer_profile_id',
+                    'exercise_profile.exercise_type',
+                    'exercise_profile.force_type',
+                    'exercise_profile.equipment_required',
+                    'exercise_profile.mechanic',
+                ])  // Chọn các trường cần thiết từ exercise và exercise_profile
+                .getOne();
+
             return exercise
         } catch (error) {
             throw error
