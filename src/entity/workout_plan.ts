@@ -34,6 +34,6 @@ export class WorkoutPlan {
     @OneToMany(() => UserWorkoutPlan, userWorkoutPlan => userWorkoutPlan.workout_plan_id)
     user_workout_plans: UserWorkoutPlan[];
 
-    @OneToMany(() => WorkoutDay, workoutDay => workoutDay.workout_plan_id)
+    @OneToMany(() => WorkoutDay, workoutDay => workoutDay.workout_plan)
     workout_day: WorkoutDay[];
 }
