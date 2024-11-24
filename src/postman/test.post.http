@@ -4,5 +4,43 @@
 
 
 
-GET http://localhost:3000/api/workouts/2
+GET http://localhost:3000/api/workouts/my_plan/1
 Content-Type: application/json
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInV1aWQiOiJjZWQ2ODU0Zi00OTM2LTQ2NTgtYTIwNy0wYWY0OWE4NGYwNmUiLCJpYXQiOjE3MzIyNjI1NzYsImV4cCI6MTczMjI3MzM3Nn0.I3re27cQ1mvZP7AdvvWdgiwFXpY5Zmnleyp_lLG3vS8
+# {
+#     "user_id": "1"
+# }
+
+###
+
+GET http://localhost:3000/api/workouts/get/2
+Content-Type: application/json
+
+###
+GET http://localhost:3000/api/workouts/get_for_card/2
+Content-Type: application/json
+
+
+###
+POST http://127.0.0.1:5001/predict
+Content-Type: application/json
+
+{
+    "gender": 0,
+    "fitness_goal": 1,
+    "age": 34,
+    "bmi": 25.5
+}
+
+###
+POST http://localhost:3000/api/workouts/create_recommendation
+Content-Type: application/json
+
+{
+    "gender": 0,
+    "fitness_goal": 1,
+    "age": 30,
+    "bmi": 25.5
+}
+
+###

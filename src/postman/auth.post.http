@@ -16,3 +16,12 @@ Content-Type: application/json
      "username": "ngochuy",
      "password": "Huyhuy007"
 }
+
+###
+POST http://localhost:3000/api/auth/login
+Content-Type: application/json
+
+{
+     "username": "qweqweqwe",
+     "password": "Huyhuy007"
+}
