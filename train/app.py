@@ -12,7 +12,7 @@ def predict():
     input_data = pd.DataFrame([data])
     predictions = model.predict(input_data)
 
-    return jsonify({'predictions': predictions.tolist()})
+    return jsonify({'predictions': predictions.tolist()[0]})
 
 if __name__ == '__main__':
     app.run(debug=True)

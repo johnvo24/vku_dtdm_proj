@@ -4,16 +4,16 @@
 
 
 
-GET http://localhost:3000/api/workouts/my_plan/1
+GET http://localhost:3000/api/workouts/my_plan/4
 Content-Type: application/json
-authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInV1aWQiOiJjZWQ2ODU0Zi00OTM2LTQ2NTgtYTIwNy0wYWY0OWE4NGYwNmUiLCJpYXQiOjE3MzIyNjI1NzYsImV4cCI6MTczMjI3MzM3Nn0.I3re27cQ1mvZP7AdvvWdgiwFXpY5Zmnleyp_lLG3vS8
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsInV1aWQiOiJlZTNjYjYzNC1mZjVkLTQxZmMtYjQ3Mi1mOWY3Yjg3ZDhkOTIiLCJpYXQiOjE3MzI2NzEwOTgsImV4cCI6MTczMjY4MTg5OH0._sF1CM2TAvmPiFYgEP3WsrFiXhuLIZCNCZ81Rbi7Xgw
 # {
 #     "user_id": "1"
 # }
 
 ###
 
-GET http://localhost:3000/api/workouts/get/2
+GET http://localhost:3000/api/workouts/get/1
 Content-Type: application/json
 
 ###
@@ -22,7 +22,7 @@ Content-Type: application/json
 
 
 ###
-POST http://127.0.0.1:5001/predict
+POST http://127.0.0.1:5000/predict
 Content-Type: application/json
 
 {

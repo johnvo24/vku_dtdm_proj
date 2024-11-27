@@ -5,3 +5,7 @@ authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsInV1aWQiOiI2
 ###
 GET http://127.0.0.1:3000/api/exercises/?exercise_id=1
 authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInV1aWQiOiJiM2I0NGVkMy00NDg5LTQ0OGMtYjUzNS05N2QwNWE3MTgyZDYiLCJpYXQiOjE3MzE3Njg5MTQsImV4cCI6MTczMTc3OTcxNH0.k3AljKfFuTOVN1GiRkKErg3tZA-vRqK7Xzo7636G1F0
+
+
+###
+GET http://127.0.0.1:3000/api/exercises/list?experience_level=1&offset=2
