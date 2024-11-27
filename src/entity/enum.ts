@@ -99,23 +99,35 @@ export enum Gender {
     Both = 'Both'
 }
 
+// export enum FitnessGoal {
+//     FatLoss = 'FatLoss',
+//     MuscleBuilding = 'MuscleBuilding',
+//     IncreaseStrength = 'IncreaseStrength',
+//     SportsPerformance = 'SportsPerformance',
+//     BodyWeight = 'BodyWeight',
+//     Cardio ='Cardio'
+// }
 export enum FitnessGoal {
-    FatLoss = 'FatLoss',
-    MuscleBuilding = 'MuscleBuilding',
-    IncreaseStrength = 'IncreaseStrength',
-    SportsPerformance = 'SportsPerformance',
-    BodyWeight = 'BodyWeight',
-    Cardio ='Cardio'
-}
+    MuscleBuilding,       // 0
+    FatLoss,              // 1
+    StrengthTraining,     // 2
+    CardioEndurance,      // 3
+    SportsPerformance,    // 4
+    Bodyweight,             //5
+    FullBody,     // 6
+    AbCoreWorkouts,       // 7
+    AtHomeWorkouts,        // 8
+    Cardio //9
+  }
 
 export enum DayOfWeek {
-    Monday = 'Monday',
-    Wednesday = 'Wednesday',
-    Friday = 'Friday',
-    Sunday = 'Sunday',
-    Tuesday = 'Tuesday',
-    Thursday = 'Thursday',
-    Saturday = 'Saturday'
+    Monday,
+    Wednesday ,
+    Tuesday,
+    Thursday,
+    Friday,
+    Saturday,
+    Sunday
 }
 
 export enum WorkoutCategory {
