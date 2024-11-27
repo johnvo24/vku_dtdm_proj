@@ -27,7 +27,7 @@ export class WorkoutPlan {
     @Column({ default: false })
     is_delete: boolean;
 
-    @OneToOne(() => WorkoutSummary, workoutSummary => workoutSummary.workout_plan)
+    @OneToMany(() => WorkoutSummary, workoutSummary => workoutSummary.workout_plan)
     @JoinColumn({ name: 'workout_summary_id' })
     workout_summary: WorkoutSummary;
 

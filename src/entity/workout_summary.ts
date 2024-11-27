@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 import { WorkoutPlan } from './workout_plan';
 import { ExperienceLevel, FitnessGoal, Gender, WorkoutType } from './enum';
 
@@ -40,6 +40,6 @@ export class WorkoutSummary {
     })
     target_gender: Gender;  // Đổi sang kiểu Gender (int)
 
-    @OneToOne(() => WorkoutPlan, workoutPlan => workoutPlan.workout_summary)
+    @ManyToOne(() => WorkoutPlan, workoutPlan => workoutPlan.workout_summary)
     workout_plan: WorkoutPlan;
 }
