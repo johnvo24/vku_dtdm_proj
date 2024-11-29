@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, OneToOne, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, OneToOne, JoinColumn, ManyToOne } from 'typeorm';
 import { WorkoutSummary } from './workout_summary';
 import { UserWorkoutPlan } from './user_workout_plan';
 import { WorkoutDay } from './workout_day';
@@ -27,7 +27,7 @@ export class WorkoutPlan {
     @Column({ default: false })
     is_delete: boolean;
 
-    @OneToMany(() => WorkoutSummary, workoutSummary => workoutSummary.workout_plan)
+    @ManyToOne(() => WorkoutSummary, workoutSummary => workoutSummary.workout_plans)
     @JoinColumn({ name: 'workout_summary_id' })
     workout_summary: WorkoutSummary;
 

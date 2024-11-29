@@ -36,9 +36,9 @@ export enum ExerciseType {
 }
 
 export enum ExperienceLevel {
-    Beginner = 'Beginner',
-    Intermediate = 'Intermediate',
-    Advanced = 'Advanced'
+    Beginner ,
+    Intermediate ,
+    Advanced 
 }
 
 export enum ForceType {

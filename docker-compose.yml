@@ -13,31 +13,31 @@ services:
     volumes:
       - postgres-data:/var/lib/postgresql/data
 
-  app:
-    image: hunganhvn/gym-app-backend:workout
-    build: .
-    environment:
-      DB_HOST: postgres
-      DB_PORT: 5432
-      DB_USERNAME: admin
-      DB_PASSWORD: 1234
-      DB_NAME: gym_app
-      PORT: 3000
-    ports:
-      - "3000:3000"
-    depends_on:
-      - postgres
-    volumes:
-      - .:/app
+  # app:
+  #   image: hunganhvn/gym-app-backend:workout
+  #   build: .
+  #   environment:
+  #     DB_HOST: postgres
+  #     DB_PORT: 5432
+  #     DB_USERNAME: admin
+  #     DB_PASSWORD: 1234
+  #     DB_NAME: gym_app
+  #     PORT: 3000
+  #   ports:
+  #     - "3000:3000"
+  #   depends_on:
+  #     - postgres
+  #   volumes:
+  #     - .:/app
 
-  web:
-    build: ./train
-    ports:
-      - "5000:5000"
-    volumes:
-      - .:/app
-    environment:
-      - FLASK_ENV=development
+  # web:
+  #   build: ./train
+  #   ports:
+  #     - "5000:5000"
+  #   volumes:
+  #     - .:/app
+  #   environment:
+  #     - FLASK_ENV=development
 
 volumes:
   postgres-data:

@@ -6,12 +6,39 @@ const axios = require('axios');
 
 export class WorkoutService {
 
+
+    async choosePlan(user_id: number, plan_id: number): Promise<any> {
+        await AppDataSource.createQueryBuilder()
+            .delete()
+            .from(UserWorkoutPlan)
+            .where('user_id = :user_id', { user_id })
+            .execute();
+        const queryBuilder = AppDataSource.createQueryBuilder()
+            .insert()
+            .into(UserWorkoutPlan)
+            .values({
+            user_id: user_id,
+            workout_plan_id: plan_id,
+            start_date: new Date(),
+            completed_session: 0
+            })
+            .returning('*');
+
+        const result = await queryBuilder.execute();
+
+        if (result.raw.length === 0) {
+            throw new Error('Failed to choose plan');
+        }
+
+        return result.raw[0];
+    }
+
     async createRecommendation(gender: number, fitness_goal: number, age: number, bmi: number): Promise<any> {
         const data = { gender, fitness_goal, age, bmi };
         log('data', data);
 
         try {
-            const response = await axios.post('http://localhost:5001/predict', data, { timeout: 5000 });
+            const response = await axios.post('http://localhost:5000/predict', data, { timeout: 5000 });
             return response.data;
         } catch (error) {
             log('Error fetching recommendation:', error);
@@ -28,25 +55,36 @@ export class WorkoutService {
         
         const rawResults = await queryBuilder.getRawOne();
         log('rawResults', rawResults);
-        
-        const workout_plan = await this.getWorkoutDetail(rawResults.workout_plan_id);
-        log('workout_plan', workout_plan);
-
-        return {
-            user_id: userId,
-            start_date : rawResults.start_date,
-            completed_session: rawResults.completed_session,
-            workout_plan : workout_plan.workout_plan,
+        if (!rawResults) {
+            return null;
+        }else{
+            const workout_plan = await this.getWorkoutDetail(rawResults.workout_plan_id);
+            log('workout_plan', workout_plan);
+            return {
+                user_id: userId,
+                start_date : rawResults.start_date,
+                completed_session: rawResults.completed_session,
+                workout_plan : workout_plan.workout_plan,
+            }
         }
+        
+        
+        
+        
     }
 
-    async getWorkoutPlans(offset: number, limit: number): Promise<any[]> {
+    async getWorkoutPlans(offset: number, limit: number, fitness_goal: number): Promise<any[]> {
         const queryBuilder = AppDataSource.createQueryBuilder()
             .select('*')
             .from(WorkoutPlan, 'wp')
             .innerJoin(WorkoutSummary, 'ws', 'wp.workout_summary_id = ws.workout_summary_id')
+            .where('ws.main_goal = :fitness_goal', { fitness_goal })
             .offset(offset)
             .limit(limit);
+        
+            const workoutPlans = await queryBuilder.getRawMany();
+            log('list workout_plan', workoutPlans);
+            return workoutPlans;
 
         return await queryBuilder.getRawMany();
     }

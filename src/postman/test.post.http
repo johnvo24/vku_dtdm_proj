@@ -13,7 +13,7 @@ authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsInV1aWQiOiJl
 
 ###
 
-GET http://localhost:3000/api/workouts/get/1
+GET http://localhost:3000/api/workouts/1
 Content-Type: application/json
 
 ###
@@ -44,3 +44,20 @@ Content-Type: application/json
 }
 
 ###
+
+POST  http://localhost:3000/api/workouts/choose_plan
+Content-Type: application/json
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsInV1aWQiOiJkODg0NDdhNC0yMTk5LTQyMDgtYTY0Ny1jMGNiM2UzM2I2NjIiLCJpYXQiOjE3MzI4MTE0OTcsImV4cCI6MTczMjgyMjI5N30.NZ1OZQHU0kcd7tt4YLWVUQXDGIMCYKnbLZHCVZraJOU
+
+{
+    "plan_id": 2
+}
+
+###
+POST  http://localhost:3000/api/workouts/check_my_plan_exist
+Content-Type: application/json
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsInV1aWQiOiJkODg0NDdhNC0yMTk5LTQyMDgtYTY0Ny1jMGNiM2UzM2I2NjIiLCJpYXQiOjE3MzI4MTE0OTcsImV4cCI6MTczMjgyMjI5N30.NZ1OZQHU0kcd7tt4YLWVUQXDGIMCYKnbLZHCVZraJOU
+
+{
+    "user_id": 4
+}
