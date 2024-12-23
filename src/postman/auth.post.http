@@ -2,10 +2,10 @@ POST http://localhost:3000/api/auth/register
 Content-Type: application/json
 
 {
-     "username": "ngochuy",
-     "fullname": "Trần Ngọc Huy",
+     "username": "huyxoann",
+     "fullname": "Tran Ngoc Huy",
      "email": "huy1234@gmail.com",
-     "password": "Huyhuy007"
+     "password": "123456"
 }
 
 ###

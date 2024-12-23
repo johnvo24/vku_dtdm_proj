@@ -33,12 +33,12 @@ export class WorkoutService {
         return result.raw[0];
     }
 
-    async createRecommendation(gender: number, fitness_goal: number, age: number, bmi: number): Promise<any> {
-        const data = { gender, fitness_goal, age, bmi };
+    async createRecommendation(gender: number, fitness_goal: number, age_avg: number, bmi_avg: number): Promise<any> {
+        const data = { gender, fitness_goal, age_avg, bmi_avg };
         log('data', data);
 
         try {
-            const response = await axios.post('http://localhost:5000/predict', data, { timeout: 5000 });
+            const response = await axios.post('http://localhost:8000/predict', data, { timeout: 5000 });
             return response.data;
         } catch (error) {
             log('Error fetching recommendation:', error);
@@ -124,7 +124,8 @@ export class WorkoutService {
             'subquery.ed_exercise_day_id AS subquery_exercise_day_id', 
             'subquery.e_title AS subquery_title', 
             'subquery.ed_reps AS subquery_reps', 
-            'subquery.ed_set AS subquery_set'
+            'subquery.ed_set AS subquery_set',
+            'subquery.e_cover_image AS subquery_cover_image'
         ])
         .from(WorkoutDay, 'wd')
         .innerJoin(
@@ -133,6 +134,7 @@ export class WorkoutService {
                 'ed.exercise_day_id AS ed_exercise_day_id',
                 'ed.workout_day_id AS ed_workout_day_id',
                 'e.title AS e_title',
+                'e.cover_image AS e_cover_image',
                 'ed.reps AS ed_reps',
                 'ed.set AS ed_set'
             ])
@@ -156,7 +158,7 @@ export class WorkoutService {
         log('rawResults', rawResults[0]);
 
         const workoutDays = rawResults.reduce((acc, row) => {
-            const { wd_workout_day_id, wd_workout_day_name, wd_day_of_week, subquery_exercise_day_id, subquery_title, subquery_reps, subquery_set } = row;
+            const { wd_workout_day_id, wd_workout_day_name, wd_day_of_week, subquery_exercise_day_id, subquery_title, subquery_reps, subquery_set, subquery_cover_image } = row;
             if (!acc[wd_workout_day_id]) {
                 acc[wd_workout_day_id] = {
                     wd_workout_day_id,
@@ -170,6 +172,7 @@ export class WorkoutService {
                 e_title: subquery_title,
                 ed_reps: subquery_reps,
                 ed_set: subquery_set,
+                e_cover_image: subquery_cover_image,
             });
             return acc;
         }, {});
@@ -190,7 +193,5 @@ export class WorkoutService {
                 workout_day: Object.values(workoutDays),
             },
         };
-
-
     }
 }

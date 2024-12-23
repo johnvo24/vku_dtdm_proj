@@ -25,11 +25,11 @@ export class WorkoutController {
 
     
     static createRecommendation = async (req: Request, res: Response, next: NextFunction) => {
-        const {gender, fitness_goal, age, bmi} = req.body;
+        const {gender, fitness_goal, age_avg, bmi_avg} = req.body;
         log(req.body);
 
         try{
-            const recommendation = await this.workoutService.createRecommendation(gender, fitness_goal, age, bmi);
+            const recommendation = await this.workoutService.createRecommendation(gender, fitness_goal, age_avg, bmi_avg);
             return new OK('Recommendation created successfully', recommendation).send(res);
         }catch(error){
             console.error('Error fetching recommendation:', error);

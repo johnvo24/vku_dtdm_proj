@@ -6,7 +6,7 @@
 
 GET http://localhost:3000/api/workouts/my_plan/4
 Content-Type: application/json
-authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsInV1aWQiOiJlZTNjYjYzNC1mZjVkLTQxZmMtYjQ3Mi1mOWY3Yjg3ZDhkOTIiLCJpYXQiOjE3MzI2NzEwOTgsImV4cCI6MTczMjY4MTg5OH0._sF1CM2TAvmPiFYgEP3WsrFiXhuLIZCNCZ81Rbi7Xgw
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsInV1aWQiOiI5YmQwZmFjYi0wYmYzLTQzZTgtODY2ZS1hNzI5NDRiMWYwNDQiLCJpYXQiOjE3MzQ4OTAyNzcsImV4cCI6MTczNDkwMTA3N30.PNi3xO6C344oSreb-Mn46lbwlTpf0VUldJaTKpcDNcc
 # {
 #     "user_id": "1"
 # }
@@ -22,15 +22,16 @@ Content-Type: application/json
 
 
 ###
-POST http://127.0.0.1:5000/predict
+POST http://127.0.0.1:8000/predict
 Content-Type: application/json
 
 {
     "gender": 0,
     "fitness_goal": 1,
-    "age": 34,
-    "bmi": 25.5
+    "age_avg": 34,
+    "bmi_avg": 25.5
 }
+
 
 ###
 POST http://localhost:3000/api/workouts/create_recommendation
@@ -39,8 +40,8 @@ Content-Type: application/json
 {
     "gender": 0,
     "fitness_goal": 1,
-    "age": 30,
-    "bmi": 25.5
+    "age_avg": 30,
+    "bmi_avg": 25.5
 }
 
 ###
