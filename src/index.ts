@@ -8,7 +8,8 @@ import {errorHandler} from './middleware/error_app.middleware';
 dotenv.config();
 
 const app: Application = express();
-const port = process.env.PORT || 3000;
+const host: string = process.env.HOST || "0.0.0.0";
+const port: number = Number(process.env.PORT) || 3000;
 
 
 // Configure CORS
@@ -41,6 +42,6 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
 });
 
 // Start server
-app.listen(port, () => {
+app.listen(port, host, () => {
   console.log(`Server running on port ${port}`);
 });

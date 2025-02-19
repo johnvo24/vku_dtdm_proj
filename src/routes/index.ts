@@ -11,6 +11,9 @@ const router = Router();
 
 // Sử dụng các route
 //test
+router.use('/test',(req, res) => {
+    res.send("Welcome to GYMAPP server")
+});
 router.use('/api/auth', authRouter);
 router.use('/api/exercises', exerciseRouter);
 
