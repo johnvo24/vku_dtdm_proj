@@ -1,0 +1,9 @@
+Flask
+pandas
+joblib
+requests
+xgboost
+python-dotenv
+fastapi
+sklearn
+uvicorn

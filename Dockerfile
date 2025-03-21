@@ -13,8 +13,8 @@ RUN npm install
 # Copy toàn bộ mã nguồn vào container
 COPY . .
 
-# # Kiểm tra cài đặt ts-node
-# RUN npm list -g ts-node
+# Kiểm tra cài đặt ts-node
+RUN npm install -g ts-node
 
 # Biên dịch TypeScript sang JavaScript
 RUN npm run build

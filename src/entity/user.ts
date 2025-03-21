@@ -8,13 +8,13 @@ export class User {
     @PrimaryGeneratedColumn()
     user_id: number;
 
-    @Column({ type: 'varchar', length: 40 })
+    @Column({ type: 'varchar', length: 40, nullable: false })
     fullname: string;
 
-    @Column({ type: 'varchar', length: 16 })
+    @Column({ type: 'varchar', length: 16, nullable: false })
     username: string;
 
-    @Column({ type: 'varchar', length: 150 })
+    @Column({ type: 'varchar', length: 150, nullable: false })
     password: string;
 
     @Column({
@@ -24,7 +24,7 @@ export class User {
     })
     gender: Gender | null;
 
-    @Column({ type: 'varchar', length: 255 })
+    @Column({ type: 'varchar', length: 255, nullable: false })
     email: string;
 
     @Column({ type: 'varchar', length: 10, nullable: true })

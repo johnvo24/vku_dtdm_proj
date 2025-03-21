@@ -24,4 +24,5 @@ docker-compose.override.yml
 .DS_Store
 Thumbs.db
 
-gym-app-backend.code-workspace
+/train/.venv
+/train/__pycache__=

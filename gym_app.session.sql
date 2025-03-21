@@ -402,27 +402,6 @@ CREATE TABLE public.exercise_day (
 ALTER TABLE public.exercise_day OWNER TO admin;
 
 --
--- Name: exercise_day_exercise_day_id_seq; Type: SEQUENCE; Schema: public; Owner: admin
---
-
-CREATE SEQUENCE public.exercise_day_exercise_day_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER SEQUENCE public.exercise_day_exercise_day_id_seq OWNER TO admin;
-
---
--- Name: exercise_day_exercise_day_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
---
-
-ALTER SEQUENCE public.exercise_day_exercise_day_id_seq OWNED BY public.exercise_day.exercise_day_id;
-
-
---
 -- Name: exercise_day_id_seq; Type: SEQUENCE; Schema: public; Owner: admin
 --
 
@@ -549,6 +528,77 @@ ALTER SEQUENCE public.food_food_id_seq OWNED BY public.food.food_id;
 
 
 --
+-- Name: migrations; Type: TABLE; Schema: public; Owner: admin
+--
+
+CREATE TABLE public.migrations (
+    id integer NOT NULL,
+    "timestamp" bigint NOT NULL,
+    name character varying NOT NULL
+);
+
+
+ALTER TABLE public.migrations OWNER TO admin;
+
+--
+-- Name: migrations_id_seq; Type: SEQUENCE; Schema: public; Owner: admin
+--
+
+CREATE SEQUENCE public.migrations_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.migrations_id_seq OWNER TO admin;
+
+--
+-- Name: migrations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
+--
+
+ALTER SEQUENCE public.migrations_id_seq OWNED BY public.migrations.id;
+
+
+--
+-- Name: test_user; Type: TABLE; Schema: public; Owner: admin
+--
+
+CREATE TABLE public.test_user (
+    id integer NOT NULL,
+    username character varying NOT NULL,
+    password character varying NOT NULL,
+    role character varying NOT NULL
+);
+
+
+ALTER TABLE public.test_user OWNER TO admin;
+
+--
+-- Name: test_user_id_seq; Type: SEQUENCE; Schema: public; Owner: admin
+--
+
+CREATE SEQUENCE public.test_user_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.test_user_id_seq OWNER TO admin;
+
+--
+-- Name: test_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
+--
+
+ALTER SEQUENCE public.test_user_id_seq OWNED BY public.test_user.id;
+
+
+--
 -- Name: user; Type: TABLE; Schema: public; Owner: admin
 --
 
@@ -556,16 +606,16 @@ CREATE TABLE public."user" (
     user_id integer NOT NULL,
     fullname character varying(40) NOT NULL,
     username character varying(16) NOT NULL,
-    gender smallint,
+    password character varying(32) NOT NULL,
+    gender smallint NOT NULL,
     email character varying(255) NOT NULL,
-    phone_number character varying(10),
-    fitness_goal smallint,
-    age smallint,
-    weight double precision,
-    height double precision,
+    phone_number character varying(10) NOT NULL,
+    fitness_goal smallint NOT NULL,
+    age smallint NOT NULL,
+    weight double precision NOT NULL,
+    height double precision NOT NULL,
     streak smallint DEFAULT '0'::smallint NOT NULL,
-    advance_data text,
-    password character varying(150) NOT NULL
+    advance_data text
 );
 
 
@@ -748,7 +798,7 @@ ALTER TABLE ONLY public.exercise ALTER COLUMN exercise_id SET DEFAULT nextval('p
 -- Name: exercise_day exercise_day_id; Type: DEFAULT; Schema: public; Owner: admin
 --
 
-ALTER TABLE ONLY public.exercise_day ALTER COLUMN exercise_day_id SET DEFAULT nextval('public.exercise_day_exercise_day_id_seq'::regclass);
+ALTER TABLE ONLY public.exercise_day ALTER COLUMN exercise_day_id SET DEFAULT nextval('public.exercise_day_id_seq'::regclass);
 
 
 --
@@ -763,6 +813,20 @@ ALTER TABLE ONLY public.exercise_profile ALTER COLUMN exer_profile_id SET DEFAUL
 --
 
 ALTER TABLE ONLY public.food ALTER COLUMN food_id SET DEFAULT nextval('public.food_food_id_seq'::regclass);
+
+
+--
+-- Name: migrations id; Type: DEFAULT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY public.migrations ALTER COLUMN id SET DEFAULT nextval('public.migrations_id_seq'::regclass);
+
+
+--
+-- Name: test_user id; Type: DEFAULT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY public.test_user ALTER COLUMN id SET DEFAULT nextval('public.test_user_id_seq'::regclass);
 
 
 --
@@ -1022,675 +1086,6 @@ COPY public.exercise (exercise_id, title, exer_profile_id, instruction, tip, cov
 --
 
 COPY public.exercise_day (exercise_day_id, set, reps, exercise_id, workout_day_id) FROM stdin;
-1	4	{10,8,8,6}	160	1
-2	4	{10,8,8,6}	59	1
-3	4	{10,8,8,6}	181	1
-4	4	{12,10,10,8}	154	2
-5	4	{12,10,10,8}	87	2
-6	4	{12,10,10,8}	52	2
-7	4	{12,10,10,8}	50	2
-8	4	{12,10,10,8}	45	2
-9	2	{10,8}	86	3
-10	2	{10,8}	89	3
-11	2	{10,8}	98	3
-12	2	{10,8}	142	3
-13	3	{12,10,8}	65	16
-14	3	{12,10,8}	58	16
-15	3	{12,10,8}	55	16
-16	2	{12,10}	92	17
-17	2	{12,10}	102	17
-18	2	{12,10}	98	17
-19	2	{12,10}	85	17
-20	5	{14,12,10,8,6}	86	18
-21	5	{14,12,10,8,6}	154	18
-22	4	{12,10,8,6}	160	19
-23	4	{12,10,8,6}	167	19
-24	4	{12,10,8,6}	159	19
-25	4	{12,10,8,6}	55	20
-26	4	{12,10,8,6}	26	20
-27	4	{12,10,8,6}	57	20
-28	4	{12,10,8,6}	59	20
-29	4	{12,10,8,6}	65	20
-30	4	{12,10,8,6}	61	20
-31	4	{12,10,8,6}	83	21
-32	4	{12,10,8,6}	98	21
-33	4	{12,10,8,6}	88	21
-34	4	{12,10,8,6}	95	21
-35	4	{12,10,8,6}	142	21
-36	4	{12,10,8,6}	99	21
-37	4	{12,10,8,6}	109	22
-38	4	{12,10,8,6}	152	22
-39	4	{12,10,8,6}	102	22
-40	4	{12,10,8,6}	159	22
-41	4	{12,10,8,6}	153	22
-42	4	{12,10,8,6}	86	22
-43	3	{12,10,8}	153	23
-44	3	{12,10,8}	194	23
-45	3	{12,10,8}	157	23
-46	3	{12,10,8}	117	23
-47	3	{12,10,8}	64	23
-48	3	{12,10,8}	109	23
-49	3	{12,10,8}	99	24
-50	3	{12,10,8}	86	24
-51	3	{12,10,8}	34	24
-52	3	{12,10,8}	160	24
-53	3	{12,10,8}	89	24
-54	3	{12,10,8}	95	24
-55	3	{12,10,8}	155	25
-56	3	{12,10,8}	42	25
-57	3	{12,10,8}	193	25
-58	3	{12,10,8}	162	25
-59	3	{12,10,8}	195	25
-60	3	{12,10,8}	188	25
-61	3	{12,10,8}	154	26
-62	3	{12,10,8}	100	26
-63	3	{12,10,8}	160	26
-64	3	{12,10,8}	90	26
-65	3	{12,10,8}	97	26
-66	3	{12,10,8}	84	26
-67	4	{12,10,8,6}	189	27
-68	4	{12,10,8,6}	196	27
-69	4	{12,10,8,6}	85	28
-70	4	{12,10,8,6}	86	28
-71	4	{12,10,8,6}	89	28
-72	4	{12,10,8,6}	193	29
-73	4	{12,10,8,6}	195	29
-74	4	{12,10,8,6}	189	29
-75	4	{12,10,8,6}	84	30
-76	4	{12,10,8,6}	100	30
-77	4	{12,10,8,6}	192	31
-78	4	{12,10,8,6}	195	31
-79	4	{12,10,8,6}	156	31
-80	4	{12,10,8,6}	193	31
-81	4	{6,5,5,3}	59	32
-82	4	{6,5,5,3}	61	32
-83	4	{6,5,5,3}	57	32
-84	4	{10,8,6,4}	27	33
-85	4	{10,8,6,4}	81	33
-86	4	{8,6,6,4}	34	34
-87	4	{8,6,6,4}	26	34
-88	4	{8,6,6,4}	39	34
-89	4	{8,6,6,4}	37	34
-90	4	{6,5,5,3}	61	35
-91	4	{6,5,5,3}	59	35
-92	4	{10,8,6,4}	182	36
-93	4	{10,8,6,4}	68	36
-94	4	{10,8,6,4}	73	36
-95	4	{10,8,6,4}	76	36
-96	4	{10,8,6,4}	81	36
-105	3	{12,10,8}	18	37
-106	3	{12,10,8}	153	37
-107	3	{12,10,8}	86	37
-108	3	{12,10,8}	189	37
-109	3	{12,10,8}	85	37
-110	3	{12,10,8}	95	37
-111	3	{12,10,8}	110	38
-112	3	{12,10,8}	42	38
-113	3	{12,10,8}	5	38
-114	3	{12,10,8}	36	39
-115	3	{12,10,8}	154	39
-116	3	{12,10,8}	101	40
-117	3	{12,10,8}	84	40
-118	3	{12,10,8}	191	40
-119	3	{12,10,8}	97	40
-120	3	{12,10,8}	89	41
-121	3	{12,10,8}	189	41
-122	3	{12,10,8}	153	41
-123	3	{12,10,8}	102	41
-124	3	{12,10,8}	152	41
-125	3	{12,10,8}	18	41
-126	3	{12,10,8}	5	42
-127	3	{12,10,8}	160	42
-128	3	{12,10,8}	155	42
-129	3	{12,10,8}	42	42
-130	3	{12,10,8}	113	42
-131	3	{12,10,8}	110	42
-132	3	{12,10,8}	157	43
-133	3	{12,10,8}	190	43
-134	3	{12,10,8}	36	43
-135	3	{12,10,8}	154	43
-136	3	{12,10,8}	198	44
-137	3	{12,10,8}	167	44
-138	3	{12,10,8}	101	44
-139	3	{12,10,8}	84	44
-140	3	{12,10,8}	3	45
-141	3	{12,10,8}	189	45
-142	3	{12,10,8}	193	45
-143	4	{10,8,8,6}	109	46
-144	4	{10,8,8,6}	85	46
-145	4	{10,8,8,6}	91	46
-146	4	{10,8,8,6}	99	46
-147	4	{10,8,8,6}	95	46
-148	4	{10,8,8,6}	140	46
-149	4	{10,8,8,6}	36	47
-150	4	{10,8,8,6}	155	48
-151	4	{10,8,8,6}	65	48
-152	4	{10,8,8,6}	57	48
-153	4	{15,12,10,8}	86	49
-154	4	{15,12,10,8}	105	49
-155	4	{15,12,10,8}	102	49
-156	4	{15,12,10,8}	92	49
-157	4	{15,12,10,8}	113	49
-158	4	{15,12,10,8}	110	49
-159	4	{15,12,10,8}	12	49
-160	4	{15,12,10,8}	157	50
-161	4	{15,12,10,8}	99	50
-162	4	{15,12,10,8}	155	51
-163	4	{15,12,10,8}	153	51
-164	4	{15,12,10,8}	42	51
-165	4	{15,12,10,8}	107	52
-166	3	{12,10,8}	5	54
-167	3	{12,10,8}	140	55
-168	3	{12,10,8}	192	56
-169	3	{12,10,8}	195	56
-170	3	{12,10,8}	189	56
-171	3	{12,10,8}	188	56
-172	3	{12,10,8}	36	57
-173	4	{12,10,8,6}	179	58
-174	4	{12,10,8,6}	185	58
-175	4	{10,8,8,6}	89	59
-176	4	{10,8,8,6}	140	59
-177	4	{10,8,8,6}	102	59
-178	4	{15,12,10,8}	43	60
-179	4	{15,12,10,8}	41	60
-180	4	{15,12,10,8}	152	60
-181	4	{15,12,10,8}	102	60
-182	4	{12,10,8,6}	163	61
-183	4	{12,10,8,6}	160	61
-184	4	{12,10,8,6}	182	61
-185	4	{10,8,8,6}	171	62
-186	4	{10,8,8,6}	191	62
-187	4	{10,8,8,6}	25	62
-188	4	{10,8,8,6}	34	62
-189	4	{10,8,8,6}	37	62
-190	4	{10,8,8,6}	172	62
-191	4	{15,12,10,8}	87	63
-192	4	{15,12,10,8}	110	63
-193	4	{15,12,10,8}	113	63
-194	4	{15,12,10,8}	93	63
-195	4	{15,12,10,8}	96	63
-196	3	{12,10,8}	165	64
-197	3	{12,10,8}	167	64
-198	3	{12,10,8}	159	64
-199	3	{10,8,8}	76	65
-200	3	{10,8,8}	81	65
-201	3	{10,8,8}	196	65
-202	3	{10,8,8}	161	65
-203	3	{15,12,10}	101	66
-204	3	{15,12,10}	84	66
-205	3	{15,12,10}	90	66
-206	3	{15,12,10}	97	66
-207	4	{10,8,8,6}	185	64
-208	4	{10,8,8,6}	36	64
-209	4	{10,8,8,6}	176	64
-210	4	{10,8,8,6}	177	64
-211	4	{10,8,8,6}	61	64
-212	4	{10,8,8,6}	162	64
-213	4	{12,10,8,8}	45	65
-214	4	{12,10,8,8}	40	65
-215	4	{12,10,8,8}	82	65
-216	4	{12,10,10,8}	65	66
-217	4	{12,10,10,8}	57	66
-218	4	{12,10,10,8}	55	66
-219	5	{5,5,3,3,1}	91	67
-220	5	{5,5,3,3,1}	160	67
-221	5	{5,5,3,3,1}	59	67
-222	5	{5,5,3,3,1}	55	67
-223	3	{12,10,8}	34	68
-224	3	{12,10,8}	167	68
-225	3	{12,10,8}	26	68
-226	3	{12,10,8}	159	68
-227	3	{12,10,8}	37	68
-228	5	{5,5,3,3,2}	88	70
-229	5	{5,5,3,3,2}	95	70
-230	5	{5,5,3,3,2}	55	70
-231	5	{5,5,3,3,2}	86	70
-232	4	{10,8,8,6}	26	71
-233	4	{10,8,8,6}	155	71
-234	4	{10,8,8,6}	42	71
-235	4	{10,8,8,6}	167	71
-236	4	{10,8,8,6}	159	71
-237	4	{8,6,4,4}	58	72
-238	4	{8,6,4,4}	58	72
-239	3	{12,10,10}	182	74
-240	3	{12,10,10}	5	74
-241	3	{12,10,10}	5	77
-242	4	{15,12,10,8}	18	78
-243	4	{15,12,10,8}	117	78
-244	4	{15,12,10,8}	20	78
-245	4	{15,12,10,8}	160	78
-246	4	{15,12,10,8}	153	78
-247	3	{12,10,10}	84	79
-248	3	{12,10,10}	91	79
-249	3	{12,10,10}	92	79
-250	3	{12,10,10}	89	79
-251	3	{10,8,8}	58	80
-252	3	{10,8,8}	36	80
-253	3	{10,8,8}	182	80
-254	3	{30,30,30}	124	81
-255	3	{30,30,30}	19	81
-256	3	{30,30,30}	197	81
-257	4	{20,15,10,10}	175	82
-258	4	{20,15,10,10}	192	82
-259	4	{20,15,10,10}	196	82
-260	4	{20,15,10,10}	194	82
-261	3	{12,10,8}	91	83
-262	3	{12,10,8}	140	83
-263	3	{12,10,8}	102	83
-264	3	{12,10,8}	89	83
-265	3	{20,15,10}	5	90
-266	4	{15,12,10,8}	153	92
-267	4	{15,12,10,8}	20	92
-268	4	{15,12,10,8}	92	92
-269	4	{15,12,10,8}	91	92
-270	4	{10,8,6,6}	160	93
-271	5	{8,8,6,6,4}	59	95
-272	5	{8,8,6,6,4}	65	95
-273	5	{8,8,6,6,4}	55	95
-274	5	{8,8,6,6,4}	57	95
-275	5	{8,8,6,6,4}	152	97
-276	5	{8,8,6,6,4}	42	97
-277	5	{8,8,6,6,4}	18	97
-278	5	{8,8,6,6,4}	109	97
-279	5	{8,8,6,6,4}	64	98
-280	5	{8,8,6,6,4}	42	100
-281	5	{8,8,6,6,4}	154	100
-282	5	{8,8,6,6,4}	155	100
-283	5	{8,8,6,6,4}	18	100
-284	5	{5,5,5,3,3}	109	101
-285	5	{5,5,5,3,3}	154	101
-286	5	{5,5,5,3,3}	153	101
-287	5	{5,5,5,3,3}	152	102
-288	5	{5,5,5,3,3}	57	103
-289	5	{5,5,5,3,3}	55	103
-290	5	{5,5,5,3,3}	65	103
-291	5	{5,5,5,3,3}	95	104
-292	5	{5,5,5,3,3}	83	104
-293	5	{5,5,5,3,3}	99	104
-294	4	{12,10,8,6}	160	106
-295	4	{12,10,8,6}	198	106
-296	4	{12,10,8,6}	193	106
-297	4	{12,10,8,6}	194	106
-298	4	{10,8,8,6}	14	107
-299	4	{10,8,8,6}	152	107
-300	4	{10,8,8,6}	64	107
-301	4	{10,8,8,6}	72	107
-302	4	{10,8,6,6}	163	108
-303	4	{15,12,10,8}	140	109
-304	4	{15,12,10,8}	82	109
-305	4	{15,12,10,8}	88	109
-306	4	{15,12,10,8}	102	109
-307	5	{10,8,6,6,4}	61	110
-308	5	{10,8,6,6,4}	182	110
-309	5	{10,8,6,6,4}	65	110
-310	5	{10,8,6,6,4}	160	110
-311	5	{12,10,8,8,6}	98	112
-312	5	{12,10,8,8,6}	89	112
-313	5	{12,10,8,8,6}	42	112
-314	5	{12,10,8,8,6}	88	112
-315	3	{12,10,8}	159	113
-316	3	{12,10,8}	36	113
-317	3	{12,10,8}	167	113
-318	3	{20,15,10}	5	114
-319	4	{10,8,8,6}	65	113
-320	4	{10,8,8,6}	61	113
-321	4	{10,8,8,6}	163	113
-322	4	{10,8,8,6}	59	113
-323	4	{12,10,8,6}	152	115
-324	4	{12,10,8,6}	142	115
-325	4	{12,10,8,6}	153	115
-326	4	{12,10,8,6}	117	115
-327	4	{10,8,8,6}	168	116
-328	4	{10,8,8,6}	61	116
-329	4	{10,8,8,6}	162	116
-330	4	{10,8,8,6}	164	116
-331	4	{8,8,6,6}	169	117
-332	4	{8,8,6,6}	199	117
-333	3	{15,12,10}	5	118
-334	3	{20,15,12}	14	119
-335	3	{20,15,12}	139	119
-336	3	{20,15,12}	5	119
-337	4	{15,12,12,10}	5	124
-338	4	{15,12,12,10}	6	124
-339	4	{15,12,12,10}	137	124
-340	4	{15,12,12,10}	16	124
-341	4	{12,10,10,8}	141	129
-342	3	{30,30,30}	5	131
-343	4	{40,35,30,25}	5	132
-344	4	{15,12,10,8}	13	133
-345	4	{15,12,10,8}	6	133
-346	4	{15,12,10,8}	3	133
-347	4	{15,12,10,8}	16	133
-348	4	{12,10,8,6}	98	138
-349	4	{12,10,8,6}	164	138
-350	4	{12,10,8,6}	61	138
-351	4	{12,10,8,6}	162	138
-352	4	{12,10,8,6}	163	138
-353	3	{10,8,6}	191	139
-354	3	{10,8,6}	20	139
-355	3	{10,8,6}	157	139
-356	3	{10,8,6}	199	139
-357	4	{12,10,8,6}	160	140
-358	4	{12,10,8,6}	162	140
-359	4	{12,10,8,6}	184	140
-360	4	{12,10,8,6}	164	140
-361	4	{15,12,10,8}	153	141
-362	4	{15,12,10,8}	18	141
-363	4	{15,12,10,8}	109	141
-364	4	{15,12,10,8}	154	141
-365	4	{15,12,10,8}	152	141
-366	3	{12,10,8}	170	142
-367	3	{12,10,8}	189	142
-368	3	{12,10,8}	196	142
-369	3	{12,10,8}	200	142
-370	4	{10,8,6,4}	155	143
-371	4	{10,8,6,4}	65	143
-372	4	{10,8,6,4}	165	143
-373	4	{10,8,6,4}	59	143
-374	3	{20,15,12}	5	144
-375	4	{12,10,8,6}	88	145
-376	4	{12,10,8,6}	85	145
-377	4	{12,10,8,6}	83	145
-378	4	{12,10,8,6}	86	145
-379	4	{12,10,8,6}	152	145
-380	4	{10,10,8,8}	164	146
-381	4	{10,10,8,8}	199	146
-382	4	{10,10,8,8}	61	146
-383	4	{10,10,8,8}	200	146
-384	3	{15,12,10}	157	147
-385	3	{15,12,10}	117	147
-386	3	{15,12,10}	20	147
-387	3	{15,12,10}	64	149
-388	3	{15,12,10}	56	149
-389	3	{15,12,10}	127	149
-390	3	{15,12,10}	125	149
-391	3	{15,12,10}	131	149
-392	3	{12,10,8}	64	150
-393	3	{12,10,8}	109	150
-394	3	{12,10,8}	154	150
-395	3	{12,10,8}	153	150
-396	3	{10,8,6}	190	151
-397	3	{10,8,6}	168	151
-398	3	{10,8,6}	188	151
-399	3	{10,8,6}	57	151
-400	3	{15,12,10}	117	152
-401	3	{15,12,10}	20	152
-402	3	{15,12,10}	157	152
-403	4	{12,10,8,8}	83	153
-404	4	{12,10,8,8}	152	153
-405	4	{12,10,8,8}	154	153
-406	4	{12,10,8,8}	142	153
-407	4	{12,10,8,8}	98	153
-408	3	{15,12,10}	135	154
-409	3	{15,12,10}	125	154
-410	3	{15,12,10}	128	154
-411	3	{15,12,10}	130	154
-412	3	{15,12,10}	126	154
-413	4	{10,10,8,8}	20	155
-414	4	{10,10,8,8}	117	155
-415	4	{10,10,8,8}	157	155
-416	3	{15,12,10}	193	157
-417	3	{15,12,10}	194	157
-418	3	{15,12,10}	195	157
-419	3	{15,12,10}	199	157
-420	3	{15,12,10}	189	157
-421	4	{12,10,8,8}	20	158
-422	4	{12,10,8,8}	160	158
-423	4	{10,8,8,6}	92	166
-424	4	{10,8,8,6}	82	166
-425	4	{10,8,8,6}	95	166
-426	4	{10,8,8,6}	89	166
-427	4	{10,8,8,6}	88	166
-428	3	{15,12,10}	20	168
-429	3	{15,12,10}	117	168
-430	3	{15,12,10}	157	168
-431	4	{12,12,10,10}	94	171
-432	4	{12,12,10,10}	169	171
-433	4	{12,12,10,10}	132	171
-434	4	{12,12,10,10}	126	171
-435	4	{12,12,10,10}	127	171
-436	4	{10,8,8,6}	92	172
-437	4	{10,8,8,6}	83	172
-438	4	{10,8,8,6}	98	172
-439	4	{10,8,8,6}	91	172
-440	4	{10,8,8,6}	140	172
-441	4	{12,10,8,8}	157	174
-442	4	{12,10,8,8}	20	174
-443	4	{12,10,8,8}	117	174
-444	4	{10,8,8,6}	89	176
-445	4	{10,8,8,6}	92	176
-446	4	{10,8,8,6}	98	176
-447	4	{10,8,8,6}	99	176
-448	4	{10,8,8,6}	95	176
-449	4	{12,10,8,8}	117	179
-450	4	{12,10,8,8}	157	179
-451	4	{12,10,8,8}	64	179
-452	4	{12,10,8,8}	20	179
-453	5	{10,8,8,6,6}	154	180
-454	5	{10,8,8,6,6}	169	180
-455	5	{10,8,8,6,6}	109	180
-456	5	{10,8,8,6,6}	18	180
-457	5	{10,8,8,6,6}	135	180
-458	4	{12,10,8,8}	57	183
-459	4	{12,10,8,8}	20	183
-460	4	{12,10,8,8}	72	183
-461	4	{12,10,8,8}	61	183
-462	4	{12,10,8,8}	64	183
-463	4	{12,10,8,8}	170	184
-464	4	{12,10,8,8}	175	184
-465	4	{12,10,8,8}	194	184
-466	4	{12,10,8,8}	200	184
-467	4	{12,10,8,8}	195	184
-468	4	{12,10,8,8}	153	185
-469	4	{12,10,8,8}	102	185
-470	4	{12,10,8,8}	86	185
-471	4	{12,10,8,8}	85	185
-472	4	{12,10,8,8}	99	185
-473	4	{12,10,8,8}	163	186
-474	4	{12,10,8,8}	194	187
-475	4	{12,10,8,8}	195	187
-476	4	{12,10,8,8}	125	187
-477	4	{12,10,8,8}	133	187
-478	4	{12,10,8,8}	189	187
-479	4	{12,10,8,8}	85	188
-480	4	{12,10,8,8}	99	188
-481	4	{12,10,8,8}	20	188
-482	4	{12,10,8,8}	82	188
-483	4	{12,10,8,8}	89	188
-484	4	{10,8,8,6}	160	189
-485	4	{10,8,8,6}	174	189
-486	4	{10,8,8,6}	175	189
-487	4	{10,8,8,6}	200	189
-488	4	{10,8,8,6}	133	189
-489	4	{10,8,8,6}	86	190
-490	4	{10,8,8,6}	153	190
-491	4	{10,8,8,6}	82	190
-492	4	{10,8,8,6}	91	190
-493	4	{10,8,8,6}	92	190
-494	4	{10,8,8,6}	163	191
-495	4	{10,8,8,6}	117	192
-496	4	{10,8,8,6}	20	192
-497	4	{10,8,8,6}	105	192
-498	4	{10,8,8,6}	157	192
-499	4	{10,8,8,6}	12	192
-500	4	{8,6,5,5}	154	193
-501	4	{8,6,5,5}	65	193
-502	4	{8,6,5,5}	59	193
-503	4	{8,6,5,5}	152	193
-504	4	{8,6,5,5}	61	193
-505	4	{8,6,5,5}	140	194
-506	4	{8,6,5,5}	86	194
-507	4	{8,6,5,5}	102	194
-508	4	{8,6,5,5}	82	194
-509	4	{8,6,5,5}	99	194
-510	4	{8,6,5,5}	190	195
-511	4	{8,6,5,5}	175	195
-512	4	{8,6,5,5}	193	195
-513	4	{8,6,5,5}	195	195
-514	4	{8,6,5,5}	20	195
-515	4	{8,6,5,5}	163	196
-516	4	{8,6,5,5}	153	197
-517	4	{8,6,5,5}	18	197
-518	4	{8,6,5,5}	109	197
-519	4	{8,6,5,5}	154	197
-520	4	{8,6,5,5}	152	197
-521	4	{10,8,6,6}	195	198
-522	4	{10,8,6,6}	67	198
-523	4	{10,8,6,6}	75	198
-524	4	{10,8,6,6}	108	198
-525	4	{10,8,6,6}	152	198
-526	4	{10,8,6,6}	84	199
-527	4	{10,8,6,6}	139	199
-528	4	{10,8,6,6}	50	199
-529	4	{10,8,6,6}	112	199
-530	4	{10,8,6,6}	107	199
-531	4	{10,8,6,6}	91	200
-532	4	{10,8,6,6}	89	200
-533	4	{10,8,6,6}	88	200
-534	4	{10,8,6,6}	18	200
-535	4	{10,8,6,6}	154	200
-536	3	{12,10,8}	152	201
-537	3	{12,10,8}	153	201
-538	3	{12,10,8}	154	201
-539	3	{12,10,8}	18	201
-540	3	{12,10,8}	109	201
-541	3	{12,10,8}	95	202
-542	3	{12,10,8}	99	202
-543	3	{12,10,8}	82	202
-544	3	{12,10,8}	160	202
-545	3	{12,10,8}	92	202
-546	4	{10,8,6}	61	204
-547	4	{10,8,6}	57	204
-548	4	{10,8,6}	55	204
-549	4	{10,8,6}	160	204
-550	4	{10,8,6}	59	204
-551	4	{10,8,6}	61	206
-552	4	{10,8,6}	162	206
-553	4	{12,10,8}	18	214
-554	4	{12,10,8}	109	214
-555	4	{12,10,8}	154	214
-556	4	{12,10,8}	152	214
-557	4	{12,10,8}	153	214
-558	4	{12,10,8}	86	215
-559	4	{12,10,8}	142	215
-560	4	{12,10,8}	91	215
-561	4	{12,10,8}	99	215
-562	4	{12,10,8}	83	215
-563	4	{12,10,8}	18	217
-564	4	{12,10,8}	153	217
-565	4	{12,10,8}	109	217
-566	4	{12,10,8}	154	217
-567	4	{12,10,8}	152	217
-568	5	{5,4,3}	91	229
-569	5	{5,4,3}	152	229
-570	5	{5,4,3}	92	229
-571	5	{5,4,3}	85	229
-572	5	{5,4,3}	109	229
-573	5	{5,4,3}	61	230
-574	5	{5,4,3}	65	230
-575	5	{5,4,3}	160	230
-576	5	{5,4,3}	59	230
-577	5	{5,4,3}	57	230
-578	5	{5,4,3}	95	232
-579	5	{5,4,3}	142	232
-580	5	{5,4,3}	153	232
-581	5	{5,4,3}	91	232
-582	5	{5,4,3}	89	232
-583	5	{5,4,3}	102	236
-584	5	{5,4,3}	86	236
-585	5	{5,4,3}	95	236
-586	5	{5,4,3}	18	236
-587	5	{5,4,3}	92	236
-588	5	{5,4,3}	61	237
-589	5	{5,4,3}	55	237
-590	5	{5,4,3}	65	237
-591	5	{5,4,3}	59	237
-592	5	{5,4,3}	160	237
-593	3	{12,10,8}	95	239
-594	3	{12,10,8}	109	239
-595	3	{12,10,8}	83	239
-596	3	{12,10,8}	88	239
-597	3	{12,10,8}	98	239
-598	3	{12,10,8}	160	240
-599	3	{12,10,8}	5	241
-600	4	{8,6,4}	154	243
-601	4	{8,6,4}	18	243
-602	4	{8,6,4}	109	243
-603	4	{8,6,4}	153	243
-604	4	{8,6,4}	140	243
-605	4	{8,6,4}	65	244
-606	4	{8,6,4}	61	244
-607	4	{8,6,4}	57	244
-608	4	{8,6,4}	55	244
-609	4	{8,6,4}	59	244
-610	4	{12,10,8}	109	246
-611	4	{12,10,8}	153	246
-612	4	{12,10,8}	18	246
-613	4	{12,10,8}	152	246
-614	4	{12,10,8}	154	246
-615	4	{12,10,8}	5	247
-616	4	{12,10,8}	91	250
-617	4	{12,10,8}	82	250
-618	4	{12,10,8}	154	250
-619	4	{12,10,8}	85	250
-620	4	{12,10,8}	88	250
-621	4	{12,10,8}	157	252
-622	4	{12,10,8}	117	252
-623	4	{12,10,8}	20	252
-624	4	{12,10,8}	154	254
-625	4	{12,10,8}	152	254
-626	4	{12,10,8}	153	254
-627	4	{12,10,8}	18	254
-628	4	{12,10,8}	109	254
-629	4	{12,10,8}	20	255
-630	4	{12,10,8}	5	255
-631	4	{12,10,8}	117	255
-632	4	{12,10,8}	157	255
-633	3	{10,8,6}	157	259
-634	3	{10,8,6}	20	259
-635	3	{10,8,6}	117	259
-636	3	{10,8,6}	153	260
-637	3	{10,8,6}	109	260
-638	3	{10,8,6}	18	260
-639	3	{10,8,6}	152	260
-640	3	{10,8,6}	154	260
-641	4	{12,10,8}	5	276
-642	4	{12,10,8}	110	277
-643	4	{12,10,8}	113	277
-644	4	{12,10,8}	182	277
-645	3	{15,12,10}	18	278
-646	3	{15,12,10}	109	278
-647	3	{15,12,10}	153	278
-648	3	{15,12,10}	154	278
-649	3	{15,12,10}	152	278
-650	3	{15,12,10}	5	279
-651	3	{15,12,10}	113	280
-652	3	{15,12,10}	110	280
-653	3	{10,8,6}	152	282
-654	3	{10,8,6}	153	282
-655	3	{10,8,6}	109	282
-656	3	{10,8,6}	18	282
-657	3	{10,8,6}	154	282
-658	3	{10,8,6}	5	283
-659	3	{20,15,12}	12	285
-660	3	{20,15,12}	16	285
-661	3	{20,15,12}	6	285
-662	3	{20,15,12}	13	285
-663	3	{20,15,12}	3	285
-664	3	{20,15,12}	5	287
-665	3	{15,12,10}	5	288
-666	3	{15,12,10}	139	289
-667	3	{15,12,10}	137	289
-668	3	{15,12,10}	6	289
-669	3	{15,12,10}	14	289
-670	3	{15,12,10}	12	289
-671	3	{20,15,12}	5	291
-672	3	{20,15,12}	12	293
-673	3	{20,15,12}	6	293
-674	3	{20,15,12}	13	293
-675	3	{20,15,12}	137	293
-676	3	{20,15,12}	14	293
-677	3	{1,1,1}	5	295
 \.
 
 
@@ -1911,12 +1306,26 @@ COPY public.food (food_id, food_name, category_food, calories, protein, carb, fa
 
 
 --
+-- Data for Name: migrations; Type: TABLE DATA; Schema: public; Owner: admin
+--
+
+COPY public.migrations (id, "timestamp", name) FROM stdin;
+\.
+
+
+--
+-- Data for Name: test_user; Type: TABLE DATA; Schema: public; Owner: admin
+--
+
+COPY public.test_user (id, username, password, role) FROM stdin;
+\.
+
+
+--
 -- Data for Name: user; Type: TABLE DATA; Schema: public; Owner: admin
 --
 
-COPY public."user" (user_id, fullname, username, gender, email, phone_number, fitness_goal, age, weight, height, streak, advance_data, password) FROM stdin;
-4	Trần Ngọc Huy	ngochuy	\N	huy1234@gmail.com	\N	\N	\N	\N	\N	0	\N	$2a$10$3iTWB2z0aFVoVonTo/raIeDseni5qMwLQ4fBIV40QLL7U7VD.7w5e
-3	Trần Ngọc Huy	ngochuy123	0	huy123@gmail.com	\N	\N	\N	\N	\N	0	\N	$2a$10$iWMzys/MlCAmgUJcF4QFMOXmzPiAQAwwa/GQnt4l6txFm7jfRcNXi
+COPY public."user" (user_id, fullname, username, password, gender, email, phone_number, fitness_goal, age, weight, height, streak, advance_data) FROM stdin;
 \.
 
 
@@ -1933,290 +1342,6 @@ COPY public.user_workout_plan (user_id, workout_plan_id, start_date, completed_s
 --
 
 COPY public.workout_day (workout_day_id, workout_plan_id, workout_day_name, day_of_week) FROM stdin;
-18	2	Legs	1
-152	34	Beginner Full Body C	5
-153	35	Athletic Full Body Day 1	0
-154	35	Athletic Full Body Day 2	1
-155	35	Athletic Full Body Day 3	2
-156	35	Athletic Full Body Day 4	3
-1	1	Push Day - Chest, Shoulders, Triceps	0
-2	1	Leg Day - Quads, Hamstrings, Calves	2
-3	1	Pull Day - Back, Biceps	4
-16	2	Chest and Triceps	1
-17	2	Back and Biceps	0
-19	2	Shoulders	2
-20	2	Chest and Triceps	3
-21	2	Back and Biceps	4
-22	2	Legs and Shoulders	5
-23	3	Full Body Day 1	1
-24	3	Full Body Day 2	0
-25	3	Full Body Day 3	2
-26	3	Full Body Day 4	3
-27	4	Full Body Day 1	1
-28	4	Full Body Day 2	0
-29	4	Full Body Day 3	1
-30	4	Full Body Day 4	3
-31	4	Full Body Day 5	4
-32	5	Chest Day	1
-33	5	Arms Day	0
-34	5	Chest & Arms Day	1
-35	5	Chest Day	3
-36	5	Arms Day	4
-37	6	Full Body Day 1	1
-38	6	Full Body Day 2	0
-39	6	Full Body Day 3	2
-40	6	Full Body Day 4	4
-41	7	Full Body Sculpt Day 1	1
-42	7	Full Body Sculpt Day 2	0
-43	7	Full Body Sculpt Day 3	1
-44	7	Full Body Sculpt Day 4	3
-45	7	Full Body Sculpt Day 5	4
-46	8	Strength Plan Day 1	0
-47	8	Strength Plan Day 2	2
-48	8	Strength Plan Day 3	4
-49	9	Booty Builder Day 1	0
-50	9	Booty Builder Day 2	1
-51	9	Booty Builder Day 3	3
-52	9	Booty Builder Day 4	5
-53	10	Lean & Fit Day 1	0
-54	10	Lean & Fit Day 2	2
-55	10	Lean & Fit Day 3	4
-56	10	Lean & Fit Day 4	1
-57	10	Lean & Fit Day 5	1
-58	11	Push Day 1	0
-59	11	Pull Day 1	1
-60	11	Leg Day 1	2
-61	11	Push Day 2	3
-62	11	Pull Day 2	4
-63	11	Leg Day 2	5
-64	12	Push Day	0
-65	12	Pull Day	2
-66	12	Leg Day	4
-67	12	Full Body Day	1
-68	13	Upper Body Hypertrophy	0
-69	13	Lower Body Hypertrophy	2
-157	35	Athletic Full Body Day 5	4
-158	35	Athletic Full Body Day 6	5
-159	36	Speed & Agility Day 1	0
-160	36	Speed & Agility Day 2	1
-161	36	Speed & Agility Day 3	3
-162	36	Speed & Agility Day 4	4
-163	36	Speed & Agility Day 5	5
-164	37	Explosive Power Day 1	0
-165	37	Explosive Power Day 2	1
-285	67	Ab Sculptor Day 1	0
-286	67	Ab Sculptor Day 2	2
-287	67	Ab Sculptor Day 3	4
-288	68	Core Strength Day 1	0
-289	68	Core Strength Day 2	2
-290	68	Core Strength Day 3	4
-291	69	Dynamic Core Day 1	0
-292	69	Dynamic Core Day 2	1
-293	69	Dynamic Core Day 3	3
-70	13	Full Body Hypertrophy	4
-71	14	Powerlifting Focus	1
-72	14	Bodybuilding Focus	3
-73	14	Hybrid Strength Day	5
-74	15	Strength Day	0
-75	15	Size & Hypertrophy	2
-76	15	Combo Day	4
-77	16	Fat Burn Focus	1
-78	16	Toning & Definition	3
-79	17	HIIT Cardio Blast	0
-80	17	Strength & HIIT Mix	2
-81	17	HIIT Core Focus	4
-82	18	Total Body Burn	1
-83	18	Lower Body Fat Blast	3
-84	18	Upper Body Shred	5
-85	18	Active Recovery	1
-86	19	Cardio & Strength Combo	1
-87	19	Full Body Strength	3
-88	19	Cardio Power	5
-89	20	Cardio Endurance	0
-90	20	Core Strength	1
-91	20	HIIT Burn	2
-92	20	Lower Body Shred	3
-93	20	Upper Body Burn	4
-94	20	Full Body Circuit	5
-95	21	Push Day 1	0
-96	21	Pull Day 1	1
-97	21	Leg Day 1	2
-98	21	Push Day 2	3
-99	21	Pull Day 2	4
-100	21	Leg Day 2	5
-101	22	Squat Focus	0
-102	22	Bench Press Focus	1
-103	22	Deadlift Focus	2
-294	69	Dynamic Core Day 4	4
-295	70	Plank Challenge Day 1	0
-296	70	Plank Challenge Day 2	2
-194	43	Full Body Day 2	1
-195	43	Full Body Day 3	2
-201	45	Full Body Day 1	0
-204	46	Push Day	0
-205	46	Pull Day	1
-104	22	Accessory Work	3
-105	22	Core & Mobility	4
-106	23	Full Body Strength A	0
-107	23	Full Body Strength B	1
-108	23	Full Body Strength C	3
-109	23	Full Body Strength D	4
-110	24	Push Day	0
-111	24	Pull Day	1
-112	24	Leg Day	2
-113	24	Accessory Day	3
-114	24	Conditioning & Core	4
-115	25	Push Day	0
-116	25	Pull Day	1
-117	25	Leg Day	2
-118	25	Push Day (Variant)	3
-119	25	Pull Day (Variant)	4
-120	25	Conditioning	5
-121	26	Core Focus A	1
-122	26	Core Focus B	3
-123	26	Core & Cardio	5
-124	27	Core Strength A	0
-125	27	Core Strength B	2
-126	27	Core Conditioning	4
-127	28	Dynamic Core A	0
-128	28	Dynamic Core B	1
-129	28	Core & Mobility	3
-130	28	Core & Cardio	5
-131	29	Plank Fundamentals	1
-132	29	Plank Endurance	3
-133	30	Ab Circuit A	0
-134	30	Ab Circuit B	1
-135	30	Core Power	3
-136	30	Conditioning	4
-137	30	Ab Burn	5
-138	31	Full Body Strength A	0
-139	31	Full Body Strength B	2
-140	31	Full Body Strength C	4
-141	32	Conditioning A	0
-142	32	Conditioning B	1
-143	32	Conditioning C	3
-144	32	Conditioning D	5
-145	33	Functional Day 1	0
-146	33	Functional Day 2	1
-147	33	Functional Day 3	3
-148	33	Functional Day 4	4
-149	33	Functional Day 5	5
-150	34	Beginner Full Body A	1
-151	34	Beginner Full Body B	3
-166	37	Explosive Power Day 3	2
-167	37	Explosive Power Day 4	3
-168	37	Explosive Power Day 5	4
-169	37	Explosive Power Day 6	5
-170	38	Athletes Training Plan Day 1	0
-171	38	Athletes Training Plan Day 2	2
-172	38	Athletes Training Plan Day 3	4
-173	39	Endurance Builder Day 1	0
-174	39	Endurance Builder Day 2	1
-175	39	Endurance Builder Day 3	3
-176	39	Endurance Builder Day 4	4
-177	40	Sport-Specific Training Day 1	0
-178	40	Sport-Specific Training Day 2	1
-179	40	Sport-Specific Training Day 3	2
-180	40	Sport-Specific Training Day 4	3
-212	47	HIIT & Circuit Day 3	3
-189	42	Lower Body Day 1	1
-190	42	Lower Body Day 1	3
-191	42	Lower Body Day 2	4
-181	40	Sport-Specific Training Day 5	5
-213	47	HIIT & Circuit Day 4	4
-214	48	Cardio & Strength Day 1	0
-215	48	Cardio & Strength Day 2	2
-216	48	Cardio & Strength Day 3	4
-193	43	Full Body Day 1	0
-220	49	HIIT Day 3	3
-217	49	HIIT Day 1	0
-218	49	HIIT Day 2	1
-219	49	Rest Day	2
-221	50	Strength & Cardio Day 1	0
-223	50	Strength & Cardio Day 3	4
-222	50	Strength & Cardio Day 2	2
-227	51	Functional Day 3	3
-226	51	Rest Day	2
-224	51	Functional Day 1	0
-225	51	Functional Day 2	1
-229	51	Functional Day 5	5
-228	51	Functional Day 4	4
-235	52	Rest Day	5
-232	52	Rest Day	2
-231	52	Heavy Lifting Day 2	1
-230	52	Heavy Lifting Day 1	0
-234	52	Heavy Lifting Day 4	4
-233	52	Heavy Lifting Day 3	3
-238	53	Rest Day	2
-192	42	Lower Body Day 2	4
-182	40	Sport-Specific Training Day 6	0
-206	46	Rest Day	2
-239	53	Power Lifting Day 3	3
-236	53	Power Lifting Day 1	0
-237	53	Power Lifting Day 2	1
-240	54	Strength Day 1	0
-242	54	Strength Day 3	4
-241	54	Strength Day 2	2
-245	55	Strength Day 3	4
-243	55	Strength Day 1	0
-244	55	Strength Day 2	2
-248	56	Rest Day	2
-249	56	Full Body Day 3	3
-247	56	Full Body Day 2	1
-246	56	Full Body Day 1	0
-253	57	Athletes Full Body Day 3	3
-254	57	Athletes Full Body Day 4	4
-252	57	Rest Day	2
-251	57	Athletes Full Body Day 2	1
-250	57	Athletes Full Body Day 1	0
-256	58	Balanced Full Body Day 2	1
-255	58	Balanced Full Body Day 1	0
-257	58	Rest Day	2
-258	58	Balanced Full Body Day 3	3
-259	59	Dynamic Full Body Day 1	0
-260	59	Dynamic Full Body Day 2	2
-261	59	Dynamic Full Body Day 3	4
-264	60	Cardio King Day 3	4
-262	60	Cardio King Day 1	0
-263	60	Cardio King Day 2	2
-266	61	Endurance Challenge Day 2	2
-265	61	Endurance Challenge Day 1	0
-267	61	Endurance Challenge Day 3	4
-270	62	HIIT Mastery Day 3	3
-268	62	HIIT Mastery Day 1	0
-269	62	HIIT Mastery Day 2	1
-271	62	HIIT Mastery Day 4	4
-273	63	Low-Impact Cardio Day 2	2
-272	63	Low-Impact Cardio Day 1	0
-274	63	Low-Impact Cardio Day 3	4
-277	64	Home Strength Builder Day 3	3
-276	64	Home Strength Builder Day 2	1
-275	64	Home Strength Builder Day 1	0
-278	65	Bodyweight Blast Day 1	0
-280	65	Bodyweight Blast Day 3	4
-279	65	Bodyweight Blast Day 2	2
-282	66	Quick Home Workout Day 2	1
-283	66	Quick Home Workout Day 3	3
-284	66	Quick Home Workout Day 4	4
-281	66	Quick Home Workout Day 1	0
-198	44	Upper Body Day	0
-207	46	Push Day	3
-209	47	HIIT & Circuit Day 1	0
-211	47	Rest Day	2
-208	46	Pull Day	4
-183	41	Push Day 1	0
-184	41	Pull Day 1	1
-185	41	Legs Day 1	0
-186	41	Push Day 2	0
-187	41	Pull Day 2	1
-188	41	Legs Day 2	5
-210	47	HIIT & Circuit Day 2	1
-199	44	Lower Body Day	1
-202	45	Full Body Day 2	2
-200	44	Full Body Day	3
-196	43	Full Body Day 4	3
-197	43	Full Body Day 5	4
-203	45	Full Body Day 3	4
 \.
 
 
@@ -2225,76 +1350,6 @@ COPY public.workout_day (workout_day_id, workout_plan_id, workout_day_name, day_
 --
 
 COPY public.workout_plan (plan_id, plan_name, plan_details, workout_categories, cover_image, create_at, is_delete, workout_summary_id) FROM stdin;
-1	Massive Muscle Plan	Focus on heavy compound lifts to build mass.	{1}	https://cdn.muscleandstrength.com/sites/default/files/styles/800x500/public/6_day_ppl_-_1200x630.jpg?itok=hKlHF0Oj	2024-11-25 14:05:21.042354	f	1
-2	Strength and Size	Combine strength training with hypertrophy for size.	{1}	https://cdn.muscleandstrength.com/sites/default/files/styles/800x500/public/close-up-shot-of-strong-man-doing-back-workout.jpg?itok=El2xhqaA	2024-11-25 14:05:21.042354	f	2
-3	Men Full Body Muscle	Full-body workout to maximize strength and mass.	{1}	https://cdn.muscleandstrength.com/sites/default/files/styles/800x500/public/spring_shred_-_1200x630.jpg?itok=o978y346	2024-11-25 14:05:21.042354	f	3
-4	Shredded Physique	Achieve a lean and muscular physique.	{1}	https://example.com/shredded_physique.jpg	2024-11-25 14:05:21.042354	f	4
-5	Chest & Arms Specialization	Focus on building a massive chest and arms.	{1,9,11}	https://example.com/chest_arms.jpg	2024-11-25 14:05:21.042354	f	5
-6	Toned & Strong	Focus on toning muscles and building strength.	{2}	https://example.com/toned_strong.jpg	2024-11-25 14:05:21.042354	f	6
-7	Full Body Sculpt	Sculpt your body with full-body workouts.	{2}	https://example.com/full_body_sculpt.jpg	2024-11-25 14:05:21.042354	f	7
-8	Women Strength Plan	Build strength and definition.	{2}	https://example.com/womens_strength.jpg	2024-11-25 14:05:21.042354	f	8
-9	Booty Builder	Focus on glutes and lower body.	{2}	https://example.com/booty_builder.jpg	2024-11-25 14:05:21.042354	f	9
-10	Lean & Fit	Combine cardio and strength for a lean physique.	{2}	https://example.com/lean_fit.jpg	2024-11-25 14:05:21.042354	f	10
-11	12-Week Mass Gain	Add serious mass with this 12-week plan.	{3}	https://example.com/12_week_mass.jpg	2024-11-25 14:05:21.042354	f	11
-12	Push-Pull-Legs Split	A proven split for muscle building.	{3}	https://example.com/push_pull_legs.jpg	2024-11-25 14:05:21.042354	f	12
-13	Advanced Hypertrophy	Focus on hypertrophy for maximum growth.	{3}	https://example.com/advanced_hypertrophy.jpg	2024-11-25 14:05:21.042354	f	13
-14	Powerbuilding Plan	Combine powerlifting and bodybuilding.	{3}	https://example.com/powerbuilding.jpg	2024-11-25 14:05:21.042354	f	14
-15	Strength & Size Combo	Build muscle and strength simultaneously.	{3}	https://example.com/strength_size_combo.jpg	2024-11-25 14:05:21.042354	f	15
-16	Shred & Tone	Burn fat and tone your muscles.	{2}	https://example.com/shred_tone.jpg	2024-11-25 14:05:21.042354	f	16
-17	HIIT Fat Burner	High-intensity interval training for fat loss.	{2}	https://example.com/hiit_fat_burner.jpg	2024-11-25 14:05:21.042354	f	17
-18	Fat Loss Accelerator	Boost your metabolism and burn fat.	{2}	https://example.com/fat_loss_accelerator.jpg	2024-11-25 14:05:21.042354	f	18
-19	Lean Machine	Combine strength and cardio for fat loss.	{2}	https://example.com/lean_machine.jpg	2024-11-25 14:05:21.042354	f	19
-20	Cardio & Core Shred	Burn fat with cardio and core exercises.	{2}	https://example.com/cardio_core_shred.jpg	2024-11-25 14:05:21.042354	f	20
-21	Strength Max	Advanced strength training program.	{3}	https://example.com/strength_max.jpg	2024-11-25 14:05:21.042354	f	21
-22	Powerlifting Fundamentals	Build raw strength with the big 3 lifts.	{3}	https://example.com/powerlifting_fundamentals.jpg	2024-11-25 14:05:21.042354	f	22
-23	Strength Builder	Progressive overload for strength gain.	{3}	https://example.com/strength_builder.jpg	2024-11-25 14:05:21.042354	f	23
-24	Strong & Powerful	Gain strength with this 8-week plan.	{3}	https://example.com/strong_powerful.jpg	2024-11-25 14:05:21.042354	f	24
-25	Strength for Beginners	Simple strength program for beginners.	{3}	https://example.com/strength_beginners.jpg	2024-11-25 14:05:21.042354	f	25
-26	Core Crusher	Strengthen your abs with this 4-week plan.	{4}	https://example.com/core_crusher.jpg	2024-11-25 14:05:21.042354	f	26
-27	Six-Pack Abs	Get a six-pack with this focused program.	{4}	https://example.com/six_pack_abs.jpg	2024-11-25 14:05:21.042354	f	27
-28	Dynamic Core Training	Improve core strength with dynamic exercises.	{4}	https://example.com/dynamic_core.jpg	2024-11-25 14:05:21.042354	f	28
-29	Plank Mastery	Master planks and strengthen your core.	{4}	https://example.com/plank_mastery.jpg	2024-11-25 14:05:21.042354	f	29
-30	Ab Circuit Training	Burn fat and strengthen your core.	{4}	https://example.com/ab_circuit.jpg	2024-11-25 14:05:21.042354	f	30
-31	Full Body Strength	Build strength with full-body workouts.	{8}	https://example.com/full_body_strength.jpg	2024-11-25 14:05:21.042354	f	31
-32	Total Body Conditioning	Condition your entire body with this plan.	{8}	https://example.com/total_body_conditioning.jpg	2024-11-25 14:05:21.042354	f	32
-33	Functional Full Body	Functional fitness for strength and endurance.	{8}	https://example.com/functional_full_body.jpg	2024-11-25 14:05:21.042354	f	33
-34	Full Body for Beginners	Simple and effective full-body workouts.	{8}	https://example.com/full_body_beginners.jpg	2024-11-25 14:05:21.042354	f	34
-35	Athletic Full Body	Train like an athlete with full-body workouts.	{8}	https://example.com/athletic_full_body.jpg	2024-11-25 14:05:21.042354	f	35
-36	Speed & Agility	Improve speed and agility for sports.	{5}	https://example.com/speed_agility.jpg	2024-11-25 14:05:21.042354	f	36
-37	Explosive Power	Develop explosive power for your sport.	{5}	https://example.com/explosive_power.jpg	2024-11-25 14:05:21.042354	f	37
-38	Athletes Training Plan	Train like a pro athlete.	{5}	https://example.com/athletes_training.jpg	2024-11-25 14:05:21.042354	f	38
-39	Endurance Builder	Build endurance for sports.	{5}	https://example.com/endurance_builder.jpg	2024-11-25 14:05:21.042354	f	39
-40	Sport-Specific Training	Tailored program for your specific sport.	{5}	https://example.com/sport_specific.jpg	2024-11-25 14:05:21.042354	f	40
-41	Muscle Growth Blueprint	Focused on progressive overload and hypertrophy.	{3}	https://example.com/muscle_growth.jpg	2024-11-25 14:05:21.042354	f	11
-42	The Bulk Program	Mass gain program for intermediate lifters.	{3}	https://example.com/bulk_program.jpg	2024-11-25 14:05:21.042354	f	12
-43	Max Mass	Targeted muscle growth with advanced techniques.	{3}	https://example.com/max_mass.jpg	2024-11-25 14:05:21.042354	f	13
-44	Lean Mass Builder	Build lean muscle while minimizing fat gain.	{3}	https://example.com/lean_mass_builder.jpg	2024-11-25 14:05:21.042354	f	14
-45	Beginner Muscle Builder	Simple program for beginners to gain muscle.	{3}	https://example.com/beginner_muscle.jpg	2024-11-25 14:05:21.042354	f	15
-46	Push & Pull Strength	Build strength and size with push-pull routines.	{3}	https://example.com/push_pull_strength.jpg	2024-11-25 14:05:21.042354	f	11
-47	Fat Furnace	Intense fat-burning program with HIIT and circuits.	{2}	https://example.com/fat_furnace.jpg	2024-11-25 14:05:21.042354	f	16
-48	The Shredder	Combination of cardio and strength for fat loss.	{2}	https://example.com/the_shredder.jpg	2024-11-25 14:05:21.042354	f	17
-49	High-Intensity Fat Burn	Fast-paced workouts to incinerate fat.	{2}	https://example.com/high_intensity_fat_burn.jpg	2024-11-25 14:05:21.042354	f	18
-50	Lean & Strong Program	Lose fat while preserving muscle mass.	{2}	https://example.com/lean_strong.jpg	2024-11-25 14:05:21.042354	f	19
-51	Metabolic Booster	Boost your metabolism with functional training.	{2}	https://example.com/metabolic_booster.jpg	2024-11-25 14:05:21.042354	f	20
-52	Strength Overload	Maximize strength gains with heavy lifts.	{3}	https://example.com/strength_overload.jpg	2024-11-25 14:05:21.042354	f	21
-53	Power Progression	Progressive strength training for powerlifters.	{3}	https://example.com/power_progression.jpg	2024-11-25 14:05:21.042354	f	22
-54	Strength Basics	Foundational strength program for beginners.	{3}	https://example.com/strength_basics.jpg	2024-11-25 14:05:21.042354	f	23
-55	Strong Foundations	Focus on building raw strength efficiently.	{3}	https://example.com/strong_foundations.jpg	2024-11-25 14:05:21.042354	f	24
-56	Full Body Burn	High-energy full-body workouts for fat loss.	{8}	https://example.com/full_body_burn.jpg	2024-11-25 14:05:21.042354	f	31
-57	Athletes Full Body	Train like an athlete with functional movements.	{8}	https://example.com/athletes_full_body.jpg	2024-11-25 14:05:21.042354	f	32
-58	Balanced Full Body	Strength and endurance in one full-body program.	{8}	https://example.com/balanced_full_body.jpg	2024-11-25 14:05:21.042354	f	33
-59	Dynamic Full Body	Dynamic exercises for strength and agility.	{8}	https://example.com/dynamic_full_body.jpg	2024-11-25 14:05:21.042354	f	34
-60	Cardio King	Improve stamina and burn calories fast.	{8}	https://example.com/cardio_king.jpg	2024-11-25 14:05:21.042354	f	51
-61	Endurance Challenge	Push your cardio limits with endurance training.	{8}	https://example.com/endurance_challenge.jpg	2024-11-25 14:05:21.042354	f	52
-62	HIIT Mastery	Master high-intensity interval training for results.	{8}	https://example.com/hiit_mastery.jpg	2024-11-25 14:05:21.042354	f	53
-63	Low-Impact Cardio	Gentle but effective cardio workouts for beginners.	{8}	https://example.com/low_impact_cardio.jpg	2024-11-25 14:05:21.042354	f	55
-64	Home Strength Builder	Effective strength training at home.	{7}	https://example.com/home_strength_builder.jpg	2024-11-25 14:05:21.042354	f	46
-65	Bodyweight Blast	Bodyweight exercises for strength and fitness.	{7}	https://example.com/bodyweight_blast.jpg	2024-11-25 14:05:21.042354	f	47
-66	Quick Home Workouts	Short and intense workouts for busy schedules.	{7}	https://example.com/quick_home.jpg	2024-11-25 14:05:21.042354	f	48
-67	Ab Sculptor	Sculpt your abs with targeted core exercises.	{4}	https://example.com/ab_sculptor.jpg	2024-11-25 14:05:21.042354	f	26
-68	Core Strength Program	Build a solid and strong core.	{4}	https://example.com/core_strength.jpg	2024-11-25 14:05:21.042354	f	27
-69	Dynamic Core	Functional core training for stability and power.	{4}	https://example.com/dynamic_core.jpg	2024-11-25 14:05:21.042354	f	28
-70	Plank Challenge	Master planks and core endurance in 4 weeks.	{4}	https://example.com/plank_challenge.jpg	2024-11-25 14:05:21.042354	f	29
 \.
 
 
@@ -2303,61 +1358,6 @@ COPY public.workout_plan (plan_id, plan_name, plan_details, workout_categories, 
 --
 
 COPY public.workout_summary (workout_summary_id, main_goal, program_duration, workout_type, training_level, day_per_week, time_per_workout, target_gender) FROM stdin;
-2	0	16	0	2	6	75	0
-3	1	8	1	0	4	45	0
-4	1	12	1	1	5	50	0
-5	2	16	0	2	5	75	0
-6	1	8	1	0	4	45	1
-7	1	12	0	1	5	50	1
-8	5	6	1	0	3	40	1
-9	8	8	1	0	4	30	1
-10	0	12	0	1	5	60	1
-11	0	12	0	1	6	70	2
-12	0	10	0	0	4	60	2
-13	0	16	1	2	5	75	2
-14	0	8	0	0	3	60	2
-15	0	20	0	2	5	80	2
-16	1	12	0	1	5	45	2
-17	1	8	1	0	3	30	2
-18	1	10	1	1	4	50	2
-19	1	6	1	0	3	40	2
-20	1	14	0	2	6	60	2
-21	2	16	0	2	6	75	2
-22	2	12	0	1	5	70	2
-23	2	8	1	0	4	50	2
-24	2	10	0	1	5	60	2
-25	2	20	0	2	6	80	2
-26	7	6	1	0	3	30	2
-27	7	8	0	1	3	40	2
-28	7	10	1	1	4	45	2
-29	7	4	1	0	2	30	2
-30	7	12	0	2	5	50	2
-31	6	10	1	0	3	60	2
-32	6	8	1	1	4	50	2
-33	6	12	1	2	5	60	2
-34	6	6	1	0	3	40	2
-35	6	16	1	2	6	70	2
-36	4	12	0	1	5	60	2
-37	4	16	0	2	6	70	2
-38	4	8	1	0	3	50	2
-39	4	10	1	1	4	55	2
-40	4	20	0	2	6	75	2
-41	5	6	1	0	3	40	2
-42	5	8	1	0	3	45	2
-43	5	12	1	1	4	50	2
-44	5	14	1	1	5	55	2
-45	5	16	1	2	6	60	2
-46	8	6	1	0	3	30	2
-47	8	8	1	0	3	35	2
-48	8	10	1	1	4	40	2
-49	8	12	1	1	4	45	2
-50	8	14	1	2	5	50	2
-51	9	6	1	0	3	30	2
-52	9	8	1	0	3	40	2
-53	9	10	1	1	4	45	2
-54	9	12	1	1	5	50	2
-55	9	14	1	2	5	55	2
-1	0	12	0	1	3	60	0
 \.
 
 
@@ -2373,13 +1373,6 @@ SELECT pg_catalog.setval('public.diet_plan_detail_diet_plan_detail_id_seq', 1, f
 --
 
 SELECT pg_catalog.setval('public.diet_plan_diet_plan_id_seq', 1, false);
-
-
---
--- Name: exercise_day_exercise_day_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
---
-
-SELECT pg_catalog.setval('public.exercise_day_exercise_day_id_seq', 677, true);
 
 
 --
@@ -2411,31 +1404,45 @@ SELECT pg_catalog.setval('public.food_food_id_seq', 1, false);
 
 
 --
+-- Name: migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
+--
+
+SELECT pg_catalog.setval('public.migrations_id_seq', 1, false);
+
+
+--
+-- Name: test_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
+--
+
+SELECT pg_catalog.setval('public.test_user_id_seq', 1, false);
+
+
+--
 -- Name: user_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
 --
 
-SELECT pg_catalog.setval('public.user_user_id_seq', 4, true);
+SELECT pg_catalog.setval('public.user_user_id_seq', 1, false);
 
 
 --
 -- Name: workout_day_workout_day_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
 --
 
-SELECT pg_catalog.setval('public.workout_day_workout_day_id_seq', 296, true);
+SELECT pg_catalog.setval('public.workout_day_workout_day_id_seq', 1, false);
 
 
 --
 -- Name: workout_plan_plan_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
 --
 
-SELECT pg_catalog.setval('public.workout_plan_plan_id_seq', 70, true);
+SELECT pg_catalog.setval('public.workout_plan_plan_id_seq', 1, false);
 
 
 --
 -- Name: workout_summary_workout_summary_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
 --
 
-SELECT pg_catalog.setval('public.workout_summary_workout_summary_id_seq', 55, true);
+SELECT pg_catalog.setval('public.workout_summary_workout_summary_id_seq', 1, false);
 
 
 --
@@ -2487,6 +1494,14 @@ ALTER TABLE ONLY public.user_workout_plan
 
 
 --
+-- Name: migrations PK_8c82d7f526340ab734260ea46be; Type: CONSTRAINT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY public.migrations
+    ADD CONSTRAINT "PK_8c82d7f526340ab734260ea46be" PRIMARY KEY (id);
+
+
+--
 -- Name: food PK_b8715442695c0d7174fa132f39d; Type: CONSTRAINT; Schema: public; Owner: admin
 --
 
@@ -2519,11 +1534,27 @@ ALTER TABLE ONLY public.exercise
 
 
 --
+-- Name: test_user PK_d96d7dbdf10d76556f90a6b2d0f; Type: CONSTRAINT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY public.test_user
+    ADD CONSTRAINT "PK_d96d7dbdf10d76556f90a6b2d0f" PRIMARY KEY (id);
+
+
+--
 -- Name: workout_day PK_f6954978dade5287bd1ae4a7a2f; Type: CONSTRAINT; Schema: public; Owner: admin
 --
 
 ALTER TABLE ONLY public.workout_day
     ADD CONSTRAINT "PK_f6954978dade5287bd1ae4a7a2f" PRIMARY KEY (workout_day_id);
+
+
+--
+-- Name: workout_plan REL_04e12a0449a9fcd92649dda9e5; Type: CONSTRAINT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY public.workout_plan
+    ADD CONSTRAINT "REL_04e12a0449a9fcd92649dda9e5" UNIQUE (workout_summary_id);
 
 
 --
@@ -2535,11 +1566,27 @@ ALTER TABLE ONLY public.exercise
 
 
 --
+-- Name: exercise_day REL_c4e39cf2c79ab9d0bc3a320cb1; Type: CONSTRAINT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY public.exercise_day
+    ADD CONSTRAINT "REL_c4e39cf2c79ab9d0bc3a320cb1" UNIQUE (exercise_id);
+
+
+--
 -- Name: diet_plan_detail REL_ed18fe6eb1a30bcd3db805542a; Type: CONSTRAINT; Schema: public; Owner: admin
 --
 
 ALTER TABLE ONLY public.diet_plan_detail
     ADD CONSTRAINT "REL_ed18fe6eb1a30bcd3db805542a" UNIQUE (food_id);
+
+
+--
+-- Name: test_user UQ_1b3c5c6a735759457873238bab3; Type: CONSTRAINT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY public.test_user
+    ADD CONSTRAINT "UQ_1b3c5c6a735759457873238bab3" UNIQUE (username);
 
 
 --
@@ -2620,6 +1667,46 @@ ALTER TABLE ONLY public.diet_plan_detail
 
 ALTER TABLE ONLY public.diet_plan
     ADD CONSTRAINT "FK_f0c78231afe316a3b97006e72fb" FOREIGN KEY (user_id) REFERENCES public."user"(user_id);
+
+
+--
+-- Name: exercise fk_exer_profile_id; Type: FK CONSTRAINT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY public.exercise
+    ADD CONSTRAINT fk_exer_profile_id FOREIGN KEY (exer_profile_id) REFERENCES public.exercise_profile(exer_profile_id);
+
+
+--
+-- Name: exercise_day fk_exercise_day_workout_day; Type: FK CONSTRAINT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY public.exercise_day
+    ADD CONSTRAINT fk_exercise_day_workout_day FOREIGN KEY (workout_day_id) REFERENCES public.workout_day(workout_day_id);
+
+
+--
+-- Name: exercise_day fk_exercise_id; Type: FK CONSTRAINT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY public.exercise_day
+    ADD CONSTRAINT fk_exercise_id FOREIGN KEY (exercise_id) REFERENCES public.exercise(exercise_id);
+
+
+--
+-- Name: exercise_day fk_workout_day_id; Type: FK CONSTRAINT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY public.exercise_day
+    ADD CONSTRAINT fk_workout_day_id FOREIGN KEY (workout_day_id) REFERENCES public.workout_day(workout_day_id);
+
+
+--
+-- Name: workout_day fk_workout_plan_id; Type: FK CONSTRAINT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY public.workout_day
+    ADD CONSTRAINT fk_workout_plan_id FOREIGN KEY (workout_plan_id) REFERENCES public.workout_plan(plan_id);
 
 
 --

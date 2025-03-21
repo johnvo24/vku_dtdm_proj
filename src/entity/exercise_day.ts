@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, ManyToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, ManyToOne } from 'typeorm';
 import { Exercise } from './exercise';
 import { WorkoutDay } from './workout_day';
 
@@ -16,7 +16,7 @@ export class ExerciseDay {
     })
     reps: number[];
 
-    @OneToOne(() => Exercise)
+    @ManyToOne(() => Exercise)
     @JoinColumn({ name: 'exercise_id' })
     exercise: Exercise;
 

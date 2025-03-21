@@ -1,17 +1,27 @@
 POST http://localhost:3000/api/auth/register
 Content-Type: application/json
+
 {
-     "username": "ngochuy123",
-     "fullname": "Trần Ngọc Huy",
-     "email": "huy123@gmail.com",
-     "password": "Huyhuy007"
+     "username": "huyxoann",
+     "fullname": "Tran Ngoc Huy",
+     "email": "huy1234@gmail.com",
+     "password": "123456"
 }
-/* */
+
 ###
 POST http://localhost:3000/api/auth/login
 Content-Type: application/json
 
 {
-     "username": "ngochuy123",
+     "username": "ngochuy",
+     "password": "Huyhuy007"
+}
+
+###
+POST http://localhost:3000/api/auth/login
+Content-Type: application/json
+
+{
+     "username": "qweqweqwe",
      "password": "Huyhuy007"
 }
