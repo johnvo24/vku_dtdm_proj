@@ -7,7 +7,7 @@ const exerciseRouter = Router();
 
 
 
-// exerciseRouter.get('/list', [checkJwt], ExerciseController.getListExercise )
-exerciseRouter.get('/list', ExerciseController.getListExercise )
+exerciseRouter.get('/list', [checkJwt], ExerciseController.getListExercise )
+// exerciseRouter.get('/list', ExerciseController.getListExercise )
 
 export default exerciseRouter
