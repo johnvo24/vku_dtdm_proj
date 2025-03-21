@@ -31,6 +31,22 @@ class ExerciseController {
             next(error);
         }
     };
+
+    static getExercise = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const { exercise_id } = req.query;
+    
+            // Lấy danh sách bài tập từ service
+            const exercises = await this.exerciseService.getExerciseDetail(Number(exercise_id));
+            console.log('Exercises fetched: '+ exercise_id + "|", exercises);
+    
+            // Trả về kết quả với status 200
+            return new OK('Exercise list retrieved successfully', exercises).send(res);
+        } catch (error) {
+            // Chuyển lỗi tới middleware xử lý lỗi
+            next(error);
+        }
+    };
     
 }
 

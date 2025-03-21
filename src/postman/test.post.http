@@ -1,0 +1,64 @@
+
+# GET http://localhost:3000/api/workouts/list?limit=10&offset=0
+# Content-Type: application/json
+
+
+
+GET http://localhost:3000/api/workouts/my_plan/4
+Content-Type: application/json
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsInV1aWQiOiI5YmQwZmFjYi0wYmYzLTQzZTgtODY2ZS1hNzI5NDRiMWYwNDQiLCJpYXQiOjE3MzQ4OTAyNzcsImV4cCI6MTczNDkwMTA3N30.PNi3xO6C344oSreb-Mn46lbwlTpf0VUldJaTKpcDNcc
+# {
+#     "user_id": "1"
+# }
+
+###
+
+GET http://localhost:3000/api/workouts/1
+Content-Type: application/json
+
+###
+GET http://localhost:3000/api/workouts/get_for_card/2
+Content-Type: application/json
+
+
+###
+POST http://127.0.0.1:8000/predict
+Content-Type: application/json
+
+{
+    "gender": 0,
+    "fitness_goal": 1,
+    "age_avg": 34,
+    "bmi_avg": 25.5
+}
+
+
+###
+POST http://localhost:3000/api/workouts/create_recommendation
+Content-Type: application/json
+
+{
+    "gender": 0,
+    "fitness_goal": 1,
+    "age_avg": 30,
+    "bmi_avg": 25.5
+}
+
+###
+
+POST  http://localhost:3000/api/workouts/choose_plan
+Content-Type: application/json
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsInV1aWQiOiJkODg0NDdhNC0yMTk5LTQyMDgtYTY0Ny1jMGNiM2UzM2I2NjIiLCJpYXQiOjE3MzI4MTE0OTcsImV4cCI6MTczMjgyMjI5N30.NZ1OZQHU0kcd7tt4YLWVUQXDGIMCYKnbLZHCVZraJOU
+
+{
+    "plan_id": 2
+}
+
+###
+POST  http://localhost:3000/api/workouts/check_my_plan_exist
+Content-Type: application/json
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsInV1aWQiOiJkODg0NDdhNC0yMTk5LTQyMDgtYTY0Ny1jMGNiM2UzM2I2NjIiLCJpYXQiOjE3MzI4MTE0OTcsImV4cCI6MTczMjgyMjI5N30.NZ1OZQHU0kcd7tt4YLWVUQXDGIMCYKnbLZHCVZraJOU
+
+{
+    "user_id": 4
+}

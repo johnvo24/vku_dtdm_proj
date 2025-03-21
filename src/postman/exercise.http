@@ -1,3 +1,12 @@
 
-GET http://127.0.0.1:3000/api/exercises/list?experience_level=1&target_muscle=3&offset=8
-authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsInV1aWQiOiJkM2VlNTRhYi01YmY3LTQyNjAtOWNmMy02MzVmZGYxZTg3YjAiLCJpYXQiOjE3MzE3NTU4MDQsImV4cCI6MTczMTc2NjYwNH0.PpaJ2ByenpXdWOK2WM5_Kx9hAsfqbSLFmb9LsrVN6YE
+GET http://127.0.0.1:3000/api/exercises/list?experience_level=1&target_muscle=3&offset=2
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsInV1aWQiOiI2MjlhNjdmNy01ZjlmLTQ2MDktYjI4Yi1mYzY0ZmQxZjJkNjAiLCJpYXQiOjE3MzE3NjkzNzAsImV4cCI6MTczMTc4MDE3MH0.BYA8jZBTJ9qA72TA5XTZbu-euBADj0t18cVSh-2Mzfw
+
+###
+GET http://127.0.0.1:3000/api/exercises/?exercise_id=1
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInV1aWQiOiJiM2I0NGVkMy00NDg5LTQ0OGMtYjUzNS05N2QwNWE3MTgyZDYiLCJpYXQiOjE3MzE3Njg5MTQsImV4cCI6MTczMTc3OTcxNH0.k3AljKfFuTOVN1GiRkKErg3tZA-vRqK7Xzo7636G1F0
+
+
+###
+GET http://127.0.0.1:3000/api/exercises/list?experience_level=1&offset=2
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsInV1aWQiOiI2MTg2NzJhZS05MTg2LTRmMmItYjJiYS0xMzNlNjA2ZWFmMjgiLCJpYXQiOjE3MzE3OTI3MzcsImV4cCI6MTczMTgwMzUzN30.Pwg9E3gKgcXiWR_ELIBrogltcysYFHCTGutYAzlaYYU
