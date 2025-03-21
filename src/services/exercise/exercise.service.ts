@@ -30,12 +30,12 @@ export class ExerciseService {
                 query.andWhere('exercise_profile.target_muscle = :target_muscle', { target_muscle });
             }
             // Áp dụng offset và limit cho paginated results
-            // query.skip(offset).take(limit);
+            query.skip(offset).take(limit);
             
             // Lấy kết quả từ query
             const exercises = await query.getMany();
-            console.log(exercises)
-            console.log(target_muscle)
+            // console.log(exercises)
+            // console.log(target_muscle)
             
             if (exercises.length === 0) {
                 throw new NotFoundError('No exercises found matching the criteria');
